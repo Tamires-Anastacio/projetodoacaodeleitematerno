@@ -27,10 +27,10 @@ CREATE TABLE cadastro (
 id_cadastro int PRIMARY KEY,
 nome_user varchar(255),
 sobrenome_user varchar(255),
-email_user varcahr(100),
+email_user varchar(100),
 dataNasc_user date,
 UF_user char(2),
-dataCadastro data,
+dataCadastro date,
 senha varchar(20)
 )
 
