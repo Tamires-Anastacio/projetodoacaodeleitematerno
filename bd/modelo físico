@@ -1,0 +1,38 @@
+ Geração de Modelo físico
+-- Sql ANSI 2003 - brModelo.
+
+
+
+CREATE TABLE usuario (
+id_usuario int PRIMARY KEY,
+email varchar(100),
+nome varchar(255),
+sobrenome varchar(255),
+dataNascimento date,
+telefone int,
+UF char(2),
+id_cadastro int
+)
+
+CREATE TABLE login (
+id_login Texto(1) PRIMARY KEY,
+senha varchar(20),
+email_user varchar(255),
+id_cadastro int,
+id_usuario int,
+FOREIGN KEY(id_usuario) REFERENCES usuario (id_usuario)
+)
+
+CREATE TABLE cadastro (
+id_cadastro int PRIMARY KEY,
+nome_user varchar(255),
+sobrenome_user varchar(255),
+email_user varcahr(100),
+dataNasc_user date,
+UF_user char(2),
+dataCadastro data,
+senha varchar(20)
+)
+
+ALTER TABLE usuario ADD FOREIGN KEY(id_cadastro) REFERENCES cadastro (id_cadastro)
+ALTER TABLE login ADD FOREIGN KEY(id_cadastro) REFERENCES cadastro (id_cadastro)
