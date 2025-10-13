@@ -3,6 +3,7 @@
     include_once 'conexao.php';
 
     $email=$_POST['email'];
+    $cpf=$_POST['cpf'];
     $senha=$_POST['senha'];
 
     $consulta= "SELECT * FROM usuarios WHERE cpf= :cpf AND email = :email AND senha = :senha";
@@ -21,7 +22,7 @@
 
     var_dump($resultado);
 
-    if($num_registros == 0){
+    if($num_registros == 1){
 
        // possivel alert 
         header('Location:index.php');
