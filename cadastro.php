@@ -1,5 +1,5 @@
  <?php
-            require 'conexao.php';
+            require 'conexao.php'; 
 
             // Recebe os dados do formulário
             $nome = $_POST['nome'] ?? '';
