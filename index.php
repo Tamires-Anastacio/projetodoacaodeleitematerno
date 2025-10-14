@@ -1,101 +1,46 @@
+<?php
+    include_once 'includes/header.php'
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>PÁGINA INICIAL</title>
-
-    <style>
-
-        /* From Uiverse.io by barisdogansutcu */ 
-            button {
-            padding: 17px 40px;
-            border-radius: 50px;
-            cursor: pointer;
-            border: 0;
-            background-color: white;
-            box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-size: 15px;
-            transition: all 0.5s ease;
-            }
-
-            button:hover {
-            letter-spacing: 3px;
-            background-color: hsl(261deg 80% 48%);
-            color: hsl(0, 0%, 100%);
-            box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
-            }
-
-            button:active {
-            letter-spacing: 3px;
-            background-color: hsl(261deg 80% 48%);
-            color: hsl(0, 0%, 100%);
-            box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
-            transform: translateY(10px);
-            transition: 100ms;
-            }
-
-    </style>
+    <title>Document</title>
 </head>
 <body>
-    <nav>
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
 
-
-            <li class="nav-item">
-                <button >
-                    <a href="form_login.html">LOGAR</a>
-                </button> 
-            </li>
-            <li class="nav-item">
-                    <button >
-                        <a href="form_cadastro.html">Cadastre-se</a>
-                    </button>
-            </li>
-        </ul>
-    </nav>
-
-    
-
-
-
-    <h1>BEM VINDO</h1>
-
-    <section>
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-sm-8">col-sm-8</div>
-                <div class="col-sm-4">col-sm-4</div>
-            </div>
-        
-        </div>
-
-
+    <section class="carrousel">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="img/image1.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="img/image2.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="img/anime-night-sky-illustration.jpg" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
     </section>
-
-    <section>
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-sm-8">col-sm-8</div>
-                <div class="col-sm-4">col-sm-4</div>
-            </div>
-        
-        </div>
-
-
-    </section>
-      
-    
-    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </html>

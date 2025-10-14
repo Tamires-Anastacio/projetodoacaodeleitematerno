@@ -27,6 +27,7 @@
 
         if ($stmt->execute()) {
             echo "<h1>Cadastro feito com sucesso!</h1>";
+            header('location:login.php');
         } else {
             echo "<h1 style='color: var(--cor-vermelha);'>Erro ao cadastrar.</h1>";
         }
