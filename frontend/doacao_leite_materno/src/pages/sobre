@@ -1,0 +1,26 @@
+import React from "react";
+
+export default function Login() {
+  return (
+    <>
+      <a href="index.php">
+        <button className="cssbuttons-io">
+          <span className="material-symbols-outlined">arrow_left_alt</span>
+        </button>
+      </a>
+
+      <main className="container">
+        <h1 className="protest-guerrilla-regular">Login</h1>
+        <form action="processa_login.php" method="post">
+          <label className="comic-relief-regular" htmlFor="email">Email</label>
+          <input type="email" name="email" id="email" required />
+
+          <label className="comic-relief-regular" htmlFor="senha">Senha</label>
+          <input type="password" name="senha" id="senha" required />
+
+          <input className="submit" type="submit" value="Enviar" />
+        </form>
+      </main>
+    </>
+  );
+}
