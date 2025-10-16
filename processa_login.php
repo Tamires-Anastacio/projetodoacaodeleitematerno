@@ -5,7 +5,7 @@
     $email = $_POST['email'];
     $senha = $_POST['senha'];
     
-    $consulta = "SELECT * FROM cadastro WHERE email = :email AND senha = :senha";
+    $consulta = "SELECT * FROM usuario WHERE email = :email AND senha = :senha";
     
     $stmt = $pdo->prepare($consulta);
     

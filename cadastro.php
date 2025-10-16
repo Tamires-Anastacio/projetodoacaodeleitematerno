@@ -12,7 +12,7 @@
 
     if ($nome && $cpf && $datanascimento && $email && $senha && $uf) {
         // Corrigido: Adicionada a vírgula entre 'email' e 'datanascimento'
-        $sql = "INSERT INTO cadastro (nome, cpf, email,telefone, datanascimento, senha, uf) 
+        $sql = "INSERT INTO usuario(nome, cpf, email,telefone, datanascimento, senha, uf) 
                 VALUES (:nome, :cpf, :email,:fone, :datanascimento, :senha, :uf)";
         
         $stmt = $pdo->prepare($sql);
