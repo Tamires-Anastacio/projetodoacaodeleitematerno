@@ -1,7 +1,6 @@
 #root {
-  
   margin: 0 auto;
- 
+
   text-align: center;
 }
 
@@ -39,22 +38,6 @@
 
 .read-the-docs {
   color: #888;
-}
-.comic-relief-regular {
-  font-family: "Comic Relief", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.protest-guerrilla-regular {
-  font-family: "Protest Guerrilla", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-  text-align: center;
-  font-size: 10vh;
-  background: linear-gradient(45deg, #cd7ccf, #3a0e66);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 a {
@@ -127,7 +110,7 @@ form input {
   transition: color 0.4s;
   display: inline-flex;
   align-items: center;
-  padding: 0.5em 1em 0.5em 1.0em;
+  padding: 0.5em 1em 0.5em 1em;
 }
 
 .cssbuttons-io::before,
@@ -156,5 +139,7 @@ form input {
 .cssbuttons-io:active {
   transform: scale(0.95);
 }
-@import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
+
+h1{
+  font-size: xx-large
+}
