@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@primeuix/themes": "^1.2.5",
     "bootstrap": "^5.3.8",
+    "primereact": "^11.0.0-alpha.1",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",

@@ -1,38 +1,45 @@
 <?php
-    session_start();    
-    include_once 'includes/conexao.php';
-    
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    
-    $consulta = "SELECT * FROM usuario WHERE email = :email AND senha = :senha";
-    
-    $stmt = $pdo->prepare($consulta);
-    
-    // Vincula os parâmetros
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':senha', $senha);
-    
-    // Executa a consulta
-    $stmt->execute();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-    // Obtém o número de registros encontrados
-    $registros = $stmt->rowCount();
-    
-    // Obtém o resultado
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+session_start();
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Credentials: true");
+header("Content-Type: application/json; charset=UTF-8");
 
-    //var_dump($resultado);
-    
-    
-    if($registros == 1){
-        $_SESSION['id'] = $resultado['id'];
-        $_SESSION['nome'] = $resultado['nome'];
-        $_SESSION['email'] = $resultado['email'];
-        header('Location: restrita.php');
-        //echo "ACESSO PERMITIDO PARA A RESTRITA.PHP";
-    }else{        
-        //echo "VOCÊ NÃO TEM PERMISSÃO";
-        header('Location: index.php');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
+
+require __DIR__ . '/includes/conexao.php';
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data) {
+    echo json_encode(["success"=>false, "message"=>"Nenhum dado recebido"]);
+    exit;
+}
+
+$cpf = $data['cpf'] ?? '';
+$email = $data['email'] ?? '';
+$senha = $data['senha'] ?? '';
+
+try {
+    $sql = "SELECT id_usuario, nome_completo, email, cpf, senha FROM usuario WHERE cpf=:cpf And email=:email LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':cpf'=>$cpf, ':email'=>$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($senha, $user['senha'])) {
+        session_regenerate_id(true);
+        $_SESSION['id'] = $user['id_usuario'];
+        $_SESSION['nome'] = $user['nome_completo'];
+        $_SESSION['email'] = $user['email'];
+
+        echo json_encode(["success"=>true]);
+    } else {
+        echo json_encode(["success"=>false,"message"=>"CPF/email ou senha incorretos"]);
     }
-?>
+} catch (PDOException $e) {
+    echo json_encode(["success"=>false,"message"=>"Erro no banco: ".$e->getMessage()]);
+}

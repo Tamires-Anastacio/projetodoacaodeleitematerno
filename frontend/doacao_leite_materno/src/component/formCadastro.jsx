@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import InputMask from "react-input-mask";
+
 
 
 function FormCad() {
@@ -83,12 +83,12 @@ function FormCad() {
 
   return (
     <div className="teses">
-      <h1 className="protest-guerrilla-regular mb-4">Cadastro</h1>
+      
       <Form onSubmit={handleSubmit}>
+      <h1 className="protest-guerrilla-regular mb-4">Cadastro</h1>
         <Form.Group className="mb-3">
           <Form.Label>Nome Completo</Form.Label>
           <Form.Control
-            mask="999.999.999-99"
             type="text"
             name="nome"
             value={formData.nome}
@@ -112,7 +112,6 @@ function FormCad() {
         <Form.Group className="mb-3">
           <Form.Label>Telefone</Form.Label>
           <Form.Control
-           mask="(99) 99999-9999"
             type="tel"
             name="telefone"
             maxLength="15"
@@ -122,7 +121,7 @@ function FormCad() {
             required
           />
         </Form.Group>
-
+        <div className="mid">
         <Form.Group className="mb-3">
           <Form.Label>Data de Nascimento</Form.Label>
           <Form.Control
@@ -148,6 +147,10 @@ function FormCad() {
             {/* Adicione os outros estados aqui */}
           </Form.Select>
         </Form.Group>
+
+
+        </div>
+        
 
         <Form.Group className="mb-3">
           <Form.Label>Cidade</Form.Label>

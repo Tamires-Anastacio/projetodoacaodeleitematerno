@@ -1,34 +1,19 @@
 <?php
-    session_start();
-
-    if( (!isset($_SESSION['id'])) and (!isset($_SESSION['nome'])) and (!isset($_SESSION['email'])) ){
-        unset(
-            $_SESSION['id'],
-            $_SESSION['nome'],
-            $_SESSION['email']
-
-        );
-        header('location: index.php');
-    }
-
-    
-
-
-
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("Location: ../frontend/doacao_leite_materno/index.html");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Página Restrita</title>
 </head>
 <body>
-     <h1>restrita</h1>
-
-     <button>
-        <a href="logout.php">sair</a>
-     </button>
+  <h1>Bem-vindo, <?php echo $_SESSION['nome']; ?>!</h1>
+  <a href="logout.php">Sair</a>
 </body>
 </html>
