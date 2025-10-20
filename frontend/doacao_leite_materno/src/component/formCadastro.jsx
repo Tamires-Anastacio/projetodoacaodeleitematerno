@@ -1,100 +1,194 @@
-import React from "react";
-import { Button, InputGroup, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import InputMask from "react-input-mask";
+
 
 function FormCad() {
+  const [formData, setFormData] = useState({
+    nome: "",
+    cpf: "",
+    telefone: "",
+    datanascimento: "",
+    uf: "",
+    cidade: "",
+    email: "",
+    senha: "",
+    confsenha: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.senha !== formData.confsenha) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    const payload = {
+      nome: formData.nome,
+      cpf: formData.cpf,
+      fone: formData.telefone,
+      datanascimento: formData.datanascimento,
+      email: formData.email,
+      senha: formData.senha,
+      uf: formData.uf,
+      cidade: formData.cidade,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost/projetodoacaodeleitematerno/backend/cadastro.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      alert(data.message);
+
+      if (data.success) {
+        setFormData({
+          nome: "",
+          cpf: "",
+          telefone: "",
+          datanascimento: "",
+          uf: "",
+          cidade: "",
+          email: "",
+          senha: "",
+          confsenha: "",
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Erro ao enviar os dados: " + error.message);
+    }
+  };
+
   return (
     <div className="teses">
       <h1 className="protest-guerrilla-regular mb-4">Cadastro</h1>
-      <Form action="../backend/cadastro.php" method="post">
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">
-            Nome Completo
-          </Form.Label>
-          <Form.Control type="text" name="nome" id="nome" required />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">CPF</Form.Label>
-          <Form.Control type="text" name="cpf" id="cpf" required />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">Telefone</Form.Label>
+          <Form.Label>Nome Completo</Form.Label>
           <Form.Control
-            type="tel"
-            name="telefone"
-            id="fone"
-            maxLength="15"
-            placeholder="(xx) xxxxx-xxxx"
+            mask="999.999.999-99"
+            type="text"
+            name="nome"
+            value={formData.nome}
+            onChange={handleChange}
             required
           />
         </Form.Group>
-        <div className="mid">
-          <Form.Group className="mb-3">
-            <Form.Label className="comic-relief-regular">
-              Data de Nascimento
-            </Form.Label>
-            <Form.Control
-              type="date"
-              name="datanascimento"
-              id="datanasc"
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label className="comic-relief-regular">UF</Form.Label>
-            <Form.Select name="uf" id="uf" required>
-              <option value="">Selecione</option>
-              <option value="AC">AC</option>
-              <option value="AL">AL</option>
-              <option value="AP">AP</option>
-              <option value="AM">AM</option>
-              <option value="BA">BA</option>
-              <option value="CE">CE</option>
-              <option value="DF">DF</option>
-              <option value="ES">ES</option>
-              <option value="GO">GO</option>
-              <option value="MA">MA</option>
-              <option value="MT">MT</option>
-              <option value="MS">MS</option>
-              <option value="MG">MG</option>
-              <option value="PA">PA</option>
-              <option value="PB">PB</option>
-              <option value="PR">PR</option>
-              <option value="PE">PE</option>
-              <option value="PI">PI</option>
-              <option value="RJ">RJ</option>
-              <option value="RN">RN</option>
-              <option value="RS">RS</option>
-              <option value="RO">RO</option>
-              <option value="RR">RR</option>
-              <option value="SC">SC</option>
-              <option value="SP">SP</option>
-              <option value="SE">SE</option>
-              <option value="TO">TO</option>
-            </Form.Select>
-          </Form.Group>
-        </div>
 
         <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">Email</Form.Label>
-          <Form.Control type="email" name="email" id="email" required />
+          <Form.Label>CPF</Form.Label>
+          <Form.Control
+            type="text"
+            name="cpf"
+            maxLength="12"
+            value={formData.cpf}
+            onChange={handleChange}
+            required
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">Senha</Form.Label>
-          <Form.Control type="password" name="senha" id="senha" required />
+          <Form.Label>Telefone</Form.Label>
+          <Form.Control
+           mask="(99) 99999-9999"
+            type="tel"
+            name="telefone"
+            maxLength="15"
+            placeholder="(xx) xxxxx-xxxx"
+            value={formData.telefone}
+            onChange={handleChange}
+            required
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label className="comic-relief-regular">
-            Confirme sua Senha
-          </Form.Label>
+          <Form.Label>Data de Nascimento</Form.Label>
+          <Form.Control
+            type="date"
+            name="datanascimento"
+            value={formData.datanascimento}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>UF</Form.Label>
+          <Form.Select
+            name="uf"
+            value={formData.uf}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione</option>
+            <option value="SP">SP</option>
+            <option value="RJ">RJ</option>
+            {/* Adicione os outros estados aqui */}
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Cidade</Form.Label>
+          <Form.Control
+            type="text"
+            name="cidade"
+            value={formData.cidade}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control
+            type="password"
+            name="senha"
+            value={formData.senha}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Confirme sua Senha</Form.Label>
           <Form.Control
             type="password"
             name="confsenha"
-            id="confsenha"
+            value={formData.confsenha}
+            onChange={handleChange}
             required
           />
         </Form.Group>

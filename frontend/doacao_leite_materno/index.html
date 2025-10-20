@@ -10,6 +10,7 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+
     <title>doacao_leite_materno</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap");
@@ -159,5 +160,12 @@
       crossorigin="anonymous"
     ></script>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="https://unpkg.com/imask"></script>
+
+    <script>
+      IMask(document.getElementById('cpf'), { mask: '000.000.000-00' });
+      IMask(document.getElementById('fone'), { mask: '(00) 00000-0000' });
+      
+    </script>
   </body>
 </html>
