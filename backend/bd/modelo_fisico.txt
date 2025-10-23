@@ -1,91 +1,86 @@
+CREATE DATABASE sistema;
+
+use sistema ;
+
 CREATE TABLE usuario (
-id_usuario int  PRIMARY KEY AUTO_INCREMENT,
-cidade varchar(100) not null,
+id_user int PRIMARY KEY ,
+cpf varchar(8) not null UNIQUE,
 nome_completo varchar(255) not null,
-datanascimento date not null,
-email varchar(100) UNIQUE not null,
-cpf varchar(8)UNIQUE not null,
-uf char(2)not null,
-data_cadastro datetime default current_timestamp not null,
-senha varchar(255)not null,
-telefone varchar(15)not null
-);
-
-CREATE TABLE instituicao (
-id_instituicao int PRIMARY KEY AUTO_INCREMENT ,
-nome varchar(255) not null,
-telefone varchar(15) not null,
 cidade varchar(100) not null,
-uf char(2)not null,
-endereco varchar(100) not null,
-estoque decimal(10,2)not null,
-email varchar(100) not null,
-status enum('ativo','inativo')not null,
-certificacao_credenciamento text not null
-);
-
-CREATE TABLE doacao (
-id_doacao int PRIMARY KEY AUTO_INCREMENT ,
-quantidade decimal(10,2) not null,
-data_doacao date not null,
-id_instituicao int not null ,
-id_doadora int not null,
-observacao Text,
-status enum('Pendente','Confirmada','Cancelada')not null
+data_nascimento date not null,
+telefone char(15) not null unique,
+email varchar(100) not null unique,
+uf char(2) not null,
+tipo_user varchar(10) not null,
+data_cadastro datetime
 );
 
 CREATE TABLE mensagem (
-id_mensagem int  PRIMARY KEY AUTO_INCREMENT,
+id_mensagem int PRIMARY KEY ,
 data_envio datetime not null,
-id_rementente int not null,
-conteudo Text not null,
-id_destinatario int not null ,
-lida boolean not null
+id_remetente int not null,
+conteudo text not null,
+id_destinatario int not null
+);
+
+CREATE TABLE instituicao (
+id_instituicao int PRIMARY KEY ,
+nome varchar(255) not null,
+certificacao binary(max) not null,
+cidade varchar(100) not null,
+num int not null,
+uf char(2) not null,
+rua varchar(100) not null
+);
+
+CREATE TABLE doacao (
+id_doacao int PRIMARY KEY ,
+observacao varchar(255) not null,
+id_doadora int not null,
+status varchar(15) not null,
+id_receptora int not null,
+id_instituicao int not null
 );
 
 CREATE TABLE tipo_leite (
-id_tipo int PRIMARY KEY,
-descricao text not null,
-nome varchar(50) not null
+id_tipo int PRIMARY KEY ,
+nome varchar(100) not null,
+descricao varchar(255) not null
+
 );
 
-CREATE TABLE doar (
-id_doacao int ,
-id_usuario int ,
-FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao),
-FOREIGN KEY(id_usuario) REFERENCES usuario (id_usuario)
-)
-;
+CREATE TABLE envia (
+id_user int not null,
+id_mensagem int not null,
+FOREIGN KEY(id_user) REFERENCES usuario (id_user) not null,
+FOREIGN KEY(id_mensagem) REFERENCES mensagem (id_mensagem)
+);
+
 CREATE TABLE solicitacao (
-id_doacao int,
-id_usuario int ,
-FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao),
-FOREIGN KEY(id_usuario) REFERENCES usuario (id_usuario)
+id_user int not null,
+id_instituicao int not null,
+FOREIGN KEY(id_user) REFERENCES usuario (id_user) not null,
+FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao)
 );
 
-CREATE TABLE recebe (
-id_instituicao int,
-id_doacao int,
-FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao),
+CREATE TABLE realiza (
+id_user int not null,
+id_doacao int not null,
+FOREIGN KEY(id_user) REFERENCES usuario (id_user) not null,
 FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
 );
 
-CREATE TABLE classifica (
-id_tipo int,
-id_instituicao int,
-FOREIGN KEY(id_tipo) REFERENCES tipo_leite (id_tipo),
-FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao)
+CREATE TABLE possui (
+id_tipo int not null,
+id_doacao int not null,
+FOREIGN KEY(id_tipo) REFERENCES tipo_leite (id_tipo) not null,
+FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
 );
 
-CREATE TABLE fornece (
-id_usuario int ,
-id_instituicao int,
-FOREIGN KEY(id_usuario) REFERENCES usuario (id_usuario),
-FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao)
-);
-
-CREATE TABLE enviar_receber (
-id_usuario int ,
-id_mensagem int ,
-FOREIGN KEY(id_usuario) REFERENCES usuario (id_usuario)/*falha: chave estrangeira*/
+CREATE TABLE recebe (
+id_instituicao int not null,
+id_doacao int not null,
+FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao) not null,
+FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
 )
+

@@ -19,19 +19,19 @@ $data = json_decode(file_get_contents("php://input"), true);
 // Debug temporário (opcional)
 // file_put_contents("log.txt", print_r($data, true));
 
-$nome = $data['nome'] ?? '';
+$nome_completo = $data['nome'] ?? '';
 $cpf = $data['cpf'] ?? '';
 $telefone = $data['telefone'] ?? ''; // atenção no React: você envia 'fone' ou 'telefone'? (no React: 'fone')
 $datanascimento = $data['datanascimento'] ?? '';
 $email = $data['email'] ?? '';
-$senha = $data['senha'] ?? '';
+$senha_hash = md5['senha'] ?? '';
 $uf = $data['uf'] ?? '';
 $cidade = $data['cidade'] ?? '';
 
-if ($nome && $cpf && $datanascimento && $email && $senha && $uf && $cidade) {
+if ($nome && $cpf && $datanascimento && $email && $senha_hash && $uf && $cidade) {
 
     $sql = "INSERT INTO usuario (nome_completo, cpf, email, telefone, datanascimento, senha, uf, cidade) 
-            VALUES (:nome_completo, :cpf, :email, :telefone, :datanascimento, :senha, :uf, :cidade)";
+            VALUES (:nome_completo, :cpf, :email, :telefone, :datanascimento, :senha_hash, :uf, :cidade)";
     
     $stmt = $pdo->prepare($sql);
 
@@ -40,7 +40,7 @@ if ($nome && $cpf && $datanascimento && $email && $senha && $uf && $cidade) {
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':telefone', $telefone);
     $stmt->bindParam(':datanascimento', $datanascimento);
-    $stmt->bindParam(':senha', $senha);
+    $stmt->bindParam(':senha', $senha_hash);
     $stmt->bindParam(':uf', $uf);
     $stmt->bindParam(':cidade', $cidade);
 
