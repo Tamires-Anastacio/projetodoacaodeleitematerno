@@ -79,11 +79,12 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-            input{
+            input,select{
                 width: 90%;
                 height: 5vh;
                 margin-bottom: 4%;
-                  border-radius: 15px;
+               border-radius: 15px;
+               border: solid 1.5px black
             }
         }
 
@@ -188,7 +189,7 @@
                         
                         <div class="col">
                             <label class="comic-relief-regular" for="uf">UF</label>
-                            <select class="form-select"  id="uf" name="uf" required>
+                            <select   id="uf" name="uf" required onchange="carregarCidades()">
                                 <option value="">Selecione</option>
                                 <option value="AC">AC</option>
                                 <option value="AL">AL</option>
@@ -221,6 +222,12 @@
                         </div>
                          
                      </div>
+                     
+
+                     <label class="comic-relief-regular" for="cidade">Cidade</label>
+                    <select  id="cidade" name="cidade" required disabled>
+                        <option value="">Selecione a UF primeiro</option>
+                    </select>
 
 
                     
@@ -247,9 +254,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script>
 document.getElementById('fone').addEventListener('input', function (e) {
-  let value = e.target.value.replace(/\D/g, ''); // remove tudo que não for número
-
-  // (99) 99999-9999 ou (99) 9999-9999
+  let value = e.target.value.replace(/\D/g, '');
   if (value.length > 10) {
     value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
   } else if (value.length > 6) {
@@ -259,17 +264,13 @@ document.getElementById('fone').addEventListener('input', function (e) {
   } else {
     value = value.replace(/^(\d*)/, '($1');
   }
-
   e.target.value = value;
 });
 
 const cpfInput = document.getElementById('cpf');
-
 cpfInput.addEventListener('input', function (e) {
-  let v = e.target.value.replace(/\D/g, '');   // só números
-  if (v.length > 11) v = v.slice(0, 11);        // limita a 11 dígitos
-
-  // Formata progressivamente: 000.000.000-00
+  let v = e.target.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
   if (v.length > 9) {
     v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
   } else if (v.length > 6) {
@@ -277,15 +278,60 @@ cpfInput.addEventListener('input', function (e) {
   } else if (v.length > 3) {
     v = v.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
   }
-
   e.target.value = v;
 });
 
-// Evita que teclas não numéricas (exceto backspace, setas, delete, tab)
 cpfInput.addEventListener('keydown', function (e) {
   const allowed = ['Backspace','ArrowLeft','ArrowRight','Delete','Tab'];
   if (allowed.includes(e.key)) return;
   if (e.key.length === 1 && /\D/.test(e.key)) e.preventDefault();
 });
+async function carregarCidades() {
+  const uf = document.getElementById('uf').value;
+  const cidadeSelect = document.getElementById('cidade');
+
+  // Desativa o select enquanto carrega
+  cidadeSelect.disabled = true;
+  cidadeSelect.innerHTML = '<option value="">Carregando...</option>';
+
+  if (!uf) {
+    cidadeSelect.innerHTML = '<option value="">Selecione a UF primeiro</option>';
+    cidadeSelect.disabled = true;
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+    const data = await response.json();
+
+    cidadeSelect.innerHTML = '<option value="">Selecione a Cidade</option>';
+    data.forEach(cidade => {
+      const option = document.createElement('option');
+      option.value = cidade.nome;
+      option.textContent = cidade.nome;
+      cidadeSelect.appendChild(option);
+    });
+
+    // ✅ Reativa o select quando as cidades forem carregadas
+    cidadeSelect.disabled = false;
+  } catch (error) {
+    console.error('Erro ao carregar cidades:', error);
+    cidadeSelect.innerHTML = '<option value="">Erro ao carregar cidades</option>';
+    cidadeSelect.disabled = true;
+  }
+}
+
+function getLatLon($cidade, $uf) {
+  $url = "https://nominatim.openstreetmap.org/search?city=" . urlencode($cidade) . "&state=" . urlencode($uf) . "&country=Brazil&format=json";
+  $json = file_get_contents($url);
+  $data = json_decode($json, true);
+  if (isset($data[0])) {
+    return [$data[0]['lat'], $data[0]['lon']];
+  }
+  return [null, null];
+}
+
+
 </script>
+
 </html>
