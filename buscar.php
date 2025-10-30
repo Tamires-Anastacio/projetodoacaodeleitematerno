@@ -1,28 +1,27 @@
 <?php
+require 'backend/includes/conexao.php';
 header('Content-Type: application/json; charset=utf-8');
 
-$conn = new mysqli("localhost", "root", "", "sistema");
-if ($conn->connect_error) {
-  echo json_encode([]);
-  exit;
-}
-
-$uf = strtoupper($_GET['uf'] ?? '');
+$uf = $_GET['uf'] ?? '';
 $cidade = $_GET['cidade'] ?? '';
 
 if (!$uf || !$cidade) {
-  echo json_encode([]);
-  exit;
+    echo json_encode([]);
+    exit;
 }
 
-$stmt = $conn->prepare("SELECT nome, cidade, uf, latitude, longitude FROM usuario WHERE uf = ? AND cidade = ?");
-$stmt->bind_param("ss", $uf, $cidade);
+// Busca apenas quem tem latitude e longitude
+$sql = "SELECT nome, cidade, uf, latitude, longitude 
+        FROM usuario 
+        WHERE uf = :uf AND cidade = :cidade 
+        AND latitude IS NOT NULL AND longitude IS NOT NULL";
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':uf', $uf);
+$stmt->bindParam(':cidade', $cidade);
 $stmt->execute();
-$result = $stmt->get_result();
 
-$usuario = [];
-while ($row = $result->fetch_assoc()) {
-  $usuario[] = $row;
-}
+$pessoas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($usuario);
+echo json_encode($pessoas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+?>

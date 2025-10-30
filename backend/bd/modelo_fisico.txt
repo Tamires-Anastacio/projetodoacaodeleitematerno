@@ -3,7 +3,7 @@ CREATE DATABASE sistema;
 use sistema ;
 
 CREATE TABLE usuario (
-id_user int PRIMARY KEY ,
+id_user int PRIMARY KEY AUTO_INCREMENT  ,
 cpf varchar(8) not null UNIQUE,
 nome_completo varchar(255) not null,
 cidade varchar(100) not null,
@@ -11,14 +11,14 @@ data_nascimento date not null,
 telefone char(15) not null unique,
 email varchar(100) not null unique,
 uf char(2) not null,
-tipo_user varchar(10) not null,
+senha varchar(50) not null,
 data_cadastro datetime default NOW(),
 latitude decimal(10,8),
 longitude decimal(11,8)
 );
 
 CREATE TABLE mensagem (
-id_mensagem int PRIMARY KEY ,
+id_mensagem int PRIMARY KEY AUTO_INCREMENT ,
 data_envio datetime default now() not null,
 id_remetente int not null,
 conteudo text not null,
@@ -26,7 +26,7 @@ id_destinatario int not null
 );
 
 CREATE TABLE instituicao (
-id_instituicao int PRIMARY KEY ,
+id_instituicao int PRIMARY KEY AUTO_INCREMENT,
 nome varchar(255) not null,
 certificacao text not null,
 cidade varchar(100) not null,
@@ -36,7 +36,7 @@ rua varchar(100) not null
 );
 
 CREATE TABLE doacao (
-id_doacao int PRIMARY KEY ,
+id_doacao int PRIMARY KEY  AUTO_INCREMENT,
 observacao varchar(255) not null,
 id_doadora int not null,
 status varchar(15) not null,
@@ -45,7 +45,7 @@ id_instituicao int not null
 );
 
 CREATE TABLE tipo_leite (
-id_tipo int PRIMARY KEY ,
+id_tipo int PRIMARY KEY AUTO_INCREMENT ,
 nome varchar(100) not null,
 descricao varchar(255) not null
 
