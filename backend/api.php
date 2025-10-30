@@ -1,11 +1,11 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
+  header("Access-Control-Allow-Origin: *");
+  header("Content-Type: application/json");
 
-$dados = [
-  ["id" => 1, "nome" => "Maria"],
-  ["id" => 2, "nome" => "João"],
-];
+  $dados = [
+    ["id" => 1, "nome" => "Maria"],
+    ["id" => 2, "nome" => "João"],
+  ];
 
-echo json_encode($dados);
+  echo json_encode($dados);
 ?>
