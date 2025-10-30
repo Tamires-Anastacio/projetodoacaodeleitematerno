@@ -1,14 +1,11 @@
-<?php
-// --- mapa.php ---
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa de Pessoas Cadastradas</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
     body { font-family: Arial, sans-serif; background-color: #f6f4f7; padding: 20px; }
     #map { height: 500px; width: 100%; border-radius: 10px; margin-top: 20px; }
@@ -17,6 +14,30 @@
     button { background-color: #5e17eb; color: white; border: none; cursor: pointer; }
     button:hover { background-color: #813cf0; }
     #info { margin-top: 10px; font-weight: bold; }
+    #listaPessoas {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .pessoa-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    .pessoa-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .pessoa-item span {
+      font-weight: bold;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -37,6 +58,7 @@
 
   <div id="info"></div>
   <div id="map"></div>
+  <div id="listaPessoas"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
@@ -86,10 +108,11 @@
       cidadeSelect.disabled = false;
     }
 
-    // ✅ Busca pessoas no banco (via PHP)
+    // ✅ Busca pessoas no banco e mostra no mapa + lista
     async function buscar() {
       const uf = document.getElementById('uf').value;
       const cidade = document.getElementById('cidade').value;
+      const listaDiv = document.getElementById('listaPessoas');
 
       if (!uf || !cidade) {
         alert("Selecione UF e Cidade!");
@@ -100,24 +123,36 @@
       const data = await response.json();
 
       markersLayer.clearLayers();
+      listaDiv.innerHTML = ""; // limpa lista anterior
 
       if (data.length === 0) {
         document.getElementById('info').innerText = `Nenhuma pessoa encontrada em ${cidade}/${uf}`;
+        listaDiv.innerHTML = "<p>Nenhuma pessoa encontrada.</p>";
         return;
       }
 
       document.getElementById('info').innerText = `${data.length} pessoas encontradas em ${cidade}/${uf}`;
 
       data.forEach(p => {
-        const marker = L.marker([p.latitude, p.longitude])
-          .bindPopup(`<b>${p.nome}</b><br>${p.cidade}/${p.uf}`)
+        // Cria marcador no mapa
+        const foto = p.foto ? `" alt="${p.nome_completo}" style="width: 80px; height: 80px; border-radius: 50%;">` : '';
+        L.marker([p.latitude, p.longitude])
+          .bindPopup(`<b>${p.nome_completo}</b><br>${p.cidade}/${p.uf}`)
           .addTo(markersLayer);
+
+        // Adiciona item na lista abaixo do mapa
+        const item = document.createElement("div");
+        item.classList.add("pessoa-item");
+        item.innerHTML = `
+          ${p.foto ? ` alt="${p.nome_completo}">` : ''}
+          <span>${p.nome_completo}</span> — ${p.cidade}/${p.uf}
+        `;
+        listaDiv.appendChild(item);
       });
 
       map.setView([data[0].latitude, data[0].longitude], 12);
     }
 
-    // 🚀 Executa ao carregar a página
     carregarUFs();
   </script>
 </body>
