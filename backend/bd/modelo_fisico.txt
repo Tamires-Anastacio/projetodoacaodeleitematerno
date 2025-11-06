@@ -1,8 +1,9 @@
-CREATE DATABASE sistema;
+CREATE DATABASE sistema ;
+USE sistema;
 
-use sistema ;
-
+--  Usuário genérico (pode doar ou receber via solicitação)
 CREATE TABLE usuario (
+<<<<<<< HEAD
 id_user int PRIMARY KEY AUTO_INCREMENT  ,
 cpf varchar(8) not null UNIQUE,
 nome_completo varchar(255) not null,
@@ -23,9 +24,24 @@ data_envio datetime default now() not null,
 id_remetente int not null,
 conteudo text not null,
 id_destinatario int not null
+=======
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    nome_completo VARCHAR(255) NOT NULL,
+    cidade VARCHAR(100) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    telefone CHAR(15) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL,
+    uf CHAR(2) NOT NULL,
+    tipo_user ENUM('adm','int','user') NOT NULL DEFAULT 'user',
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
+>>>>>>> 472df95 (pagina adm,dashboard usr e inst,mapa,solicitacao/notificacao)
 );
 
+-- Instituições 
 CREATE TABLE instituicao (
+<<<<<<< HEAD
 id_instituicao int PRIMARY KEY AUTO_INCREMENT,
 nome varchar(255) not null,
 certificacao text not null,
@@ -42,47 +58,86 @@ id_doadora int not null,
 status varchar(15) not null,
 id_receptora int not null,
 id_instituicao int not null
+=======
+    id_instituicao INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
+    certificacao TEXT,
+    especialidade VARCHAR(100) NOT NULL;
+    cidade VARCHAR(100) NOT NULL,
+    uf CHAR(2) NOT NULL,
+    rua VARCHAR(100) NOT NULL,
+    num INT NOT NULL,
+    telefone CHAR(15),
+    email VARCHAR(100),
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Mensagens entre usuários ,instituições ou adm
+CREATE TABLE mensagem (
+    id_mensagem INT AUTO_INCREMENT PRIMARY KEY,
+    data_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_remetente INT NOT NULL,
+    id_destinatario INT NOT NULL,
+    conteudo TEXT NOT NULL,
+    FOREIGN KEY (id_remetente) REFERENCES usuario(id_user),
+    FOREIGN KEY (id_destinatario) REFERENCES usuario(id_user)
+>>>>>>> 472df95 (pagina adm,dashboard usr e inst,mapa,solicitacao/notificacao)
+);
+
+--  Tipos de leite doado
 CREATE TABLE tipo_leite (
+<<<<<<< HEAD
 id_tipo int PRIMARY KEY AUTO_INCREMENT ,
 nome varchar(100) not null,
 descricao varchar(255) not null
 
+=======
+    id_tipo INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255) NOT NULL
+>>>>>>> 472df95 (pagina adm,dashboard usr e inst,mapa,solicitacao/notificacao)
 );
 
-CREATE TABLE envia (
-id_user int not null,
-id_mensagem int not null,
-FOREIGN KEY(id_user) REFERENCES usuario (id_user),
-FOREIGN KEY(id_mensagem) REFERENCES mensagem (id_mensagem)
+--  Doações de leite
+CREATE TABLE doacao (
+    id_doacao INT AUTO_INCREMENT PRIMARY KEY,
+    observacao VARCHAR(255),
+    status ENUM('pendente','aceita','recusada','finalizada') DEFAULT 'pendente',
+    id_doadora INT NOT NULL,
+    id_instituicao INT NOT NULL,
+    data_doacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_doadora) REFERENCES usuario(id_user),
+    FOREIGN KEY (id_instituicao) REFERENCES instituicao(id_instituicao)
 );
 
-CREATE TABLE solicitacao (
-id_user int not null,
-id_instituicao int not null,
-FOREIGN KEY(id_user) REFERENCES usuario (id_user) ,
-FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao)
-);
-
-CREATE TABLE realiza (
-id_user int not null,
-id_doacao int not null,
-FOREIGN KEY(id_user) REFERENCES usuario (id_user) ,
-FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
-);
-
+--  Relaciona tipo de leite com doação
 CREATE TABLE possui (
-id_tipo int not null,
-id_doacao int not null,
-FOREIGN KEY(id_tipo) REFERENCES tipo_leite (id_tipo),
-FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
+    id_tipo INT NOT NULL,
+    id_doacao INT NOT NULL,
+    PRIMARY KEY (id_tipo, id_doacao),
+    FOREIGN KEY (id_tipo) REFERENCES tipo_leite(id_tipo),
+    FOREIGN KEY (id_doacao) REFERENCES doacao(id_doacao)
 );
 
+--  Instituição que recebe uma doação
 CREATE TABLE recebe (
-id_instituicao int not null,
-id_doacao int not null,
-FOREIGN KEY(id_instituicao) REFERENCES instituicao (id_instituicao) ,
-FOREIGN KEY(id_doacao) REFERENCES doacao (id_doacao)
-)
+    id_instituicao INT NOT NULL,
+    id_doacao INT NOT NULL,
+    PRIMARY KEY (id_instituicao, id_doacao),
+    FOREIGN KEY (id_instituicao) REFERENCES instituicao(id_instituicao),
+    FOREIGN KEY (id_doacao) REFERENCES doacao(id_doacao)
+);
 
+--Solicitação de doação ou recebimento
+CREATE TABLE solicitacao (
+    id_solicitacao INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    id_instituicao INT NOT NULL,
+    tipo_solicitacao ENUM('doar','receber') NOT NULL,
+    observacao VARCHAR(255),
+    data_solicitacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pendente','aceita','recusada') DEFAULT 'pendente',
+    FOREIGN KEY (id_user) REFERENCES usuario(id_user),
+    FOREIGN KEY (id_instituicao) REFERENCES instituicao(id_instituicao)
+);

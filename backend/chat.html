@@ -1,0 +1,102 @@
+<?php
+require 'conexao.php';
+session_start();
+
+$id_solicitacao = $_GET['id'];
+$id_user = $_SESSION['id_user'];
+
+// Busca dados da solicitação
+$sql = "SELECT id_user, id_instituicao FROM solicitacao WHERE id_solicitacao = ?";
+$stmt = $conn->prepare($sql); $stmt->bind_param("i", $id_solicitacao);
+$stmt->execute(); $sol = $stmt->get_result()->fetch_assoc(); $destinatario =
+($id_user == $sol['id_user']) ? $sol['id_instituicao'] : $sol['id_user']; ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f4f4f9;
+      }
+      .chat-box {
+        width: 70%;
+        margin: 20px auto;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .msg {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 15px;
+        width: fit-content;
+      }
+      .enviada {
+        background: #5e17eb;
+        color: white;
+        margin-left: auto;
+      }
+      .recebida {
+        background: #eee;
+        color: #333;
+      }
+      form {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+      button {
+        background: #5e17eb;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-box">
+      <h3>💬 Conversa</h3>
+      <div id="mensagens">
+        <?php
+    $msgQuery = "SELECT * FROM mensagem 
+                 WHERE (id_remetente = ? AND id_destinatario = ?) 
+                    OR (id_remetente = ? AND id_destinatario = ?)
+                 ORDER BY data_envio";
+    $stmtMsg = $conn->prepare($msgQuery); $stmtMsg->bind_param("iiii", $id_user,
+        $destinatario, $destinatario, $id_user); $stmtMsg->execute(); $mensagens
+        = $stmtMsg->get_result(); while ($m = $mensagens->fetch_assoc()) {
+        $classe = ($m['id_remetente'] == $id_user) ? 'enviada' : 'recebida';
+        echo "
+        <div class="msg $classe">" . htmlspecialchars($m['conteudo']) . "</div>
+        "; } ?>
+      </div>
+
+      <form method="POST" action="enviar_mensagem.php">
+        <input
+          type="hidden"
+          name="id_destinatario"
+          value="<?= $destinatario ?>"
+        />
+        <input
+          type="text"
+          name="conteudo"
+          placeholder="Digite sua mensagem..."
+          required
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </body>
+</html>

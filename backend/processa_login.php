@@ -1,45 +1,41 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+    session_start();
+    include_once 'includes/conexao.php';
+    
+    $cpf=$_POST['cpf'];
+    $email=$_POST['email'];
+    $senha=$_POST['senha'];
 
-session_start();
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json; charset=UTF-8");
+    $consulta= "SELECT * FROM usuario WHERE cpf= :cpf AND email = :email AND senha = :senha";
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
+    $stmt = $pdo->prepare($consulta);
+    
+    $stmt->bindParam(':cpf',$cpf);
+    $stmt->bindParam(':email',$email);
+    $stmt->bindParam(':senha',$senha);
 
-require __DIR__ . '/includes/conexao.php';
+    $stmt->execute();
 
-$data = json_decode(file_get_contents("php://input"), true);
+    $num_registros= $stmt->rowCount();
 
-if (!$data) {
-    echo json_encode(["success"=>false, "message"=>"Nenhum dado recebido"]);
-    exit;
-}
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$cpf = $data['cpf'] ?? '';
-$email = $data['email'] ?? '';
-$senha = $data['senha'] ?? '';
+    var_dump($resultado);
 
-try {
-    $sql = "SELECT id_usuario, nome_completo, email, cpf, senha FROM usuario WHERE cpf=:cpf And email=:email LIMIT 1";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':cpf'=>$cpf, ':email'=>$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($num_registros == 0){
 
-    if ($user && password_verify($senha, $user['senha'])) {
-        session_regenerate_id(true);
-        $_SESSION['id'] = $user['id_usuario'];
-        $_SESSION['nome'] = $user['nome_completo'];
-        $_SESSION['email'] = $user['email'];
+       // possivel alert 
+        header('Location:index.php');
+    }else {
+            $_SESSION['id'] = $resultado['id'];
+            $_SESSION['nome'] = $resultado['nome'];
+            $_SESSION['email'] = $resultado['email'];
+            
+            header('Location:restrita.php');
 
-        echo json_encode(["success"=>true]);
-    } else {
-        echo json_encode(["success"=>false,"message"=>"CPF/email ou senha incorretos"]);
+
+            echo "ACESSO PERMITIDO PARA A RESTRITA.PHP";
     }
-} catch (PDOException $e) {
-    echo json_encode(["success"=>false,"message"=>"Erro no banco: ".$e->getMessage()]);
-}
+
+   
+        
