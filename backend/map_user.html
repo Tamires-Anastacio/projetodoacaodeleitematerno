@@ -77,69 +77,60 @@ $user['uf']; ?>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-      const cidade = "<?= htmlspecialchars($cidade) ?>";
-      const uf = "<?= htmlspecialchars($uf) ?>";
-      let map = L.map("map").setView([-14.235, -51.9253], 4);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap",
-      }).addTo(map);
+            const cidade = "<?= htmlspecialchars($cidade) ?>";
+            const uf = "<?= htmlspecialchars($uf) ?>";
+            let map = L.map("map").setView([-14.235, -51.9253], 4);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution: "&copy; OpenStreetMap",
+            }).addTo(map);
 
-      let markersLayer = L.layerGroup().addTo(map);
+            let markersLayer = L.layerGroup().addTo(map);
 
-      async function buscarInstituicoes() {
-        const listaDiv = document.getElementById("lista");
-        listaDiv.innerHTML = "<p>🔍 Buscando instituições próximas...</p>";
+            async function buscarInstituicoes() {
+              const listaDiv = document.getElementById("lista");
+              listaDiv.innerHTML = "<p>🔍 Buscando instituições próximas...</p>";
 
-        // 🔹 Busca instituições cadastradas no banco
-        const resp = await fetch(
-          `buscar_instituicoes.php?cidade=${cidade}&uf=${uf}`
-        );
-        const dados = await resp.json();
+              // 🔹 Busca instituições cadastradas no banco
+              const resp = await fetch(
+                `buscar_instituicoes.php?cidade=${cidade}&uf=${uf}`
+              );
+              const dados = await resp.json();
 
-        markersLayer.clearLayers();
-        listaDiv.innerHTML = "";
+              markersLayer.clearLayers();
+              listaDiv.innerHTML = "";
 
-        if (dados.length === 0) {
-          listaDiv.innerHTML = `
-          <p>Nenhuma instituição cadastrada encontrada em <b>${cidade}/${uf}</b>.</p>
-          <div class="item nao-cad">
-            <b>🔗 Outras instituições próximas</b><br>
-            <a href="https://www.google.com/maps/search/banco+de+leite+${cidade}+${uf}" target="_blank">
-              Ver bancos de leite e hospitais em ${cidade} no Google Maps
-            </a>
-          </div>
-        `;
-          return;
-        }
+              if (dados.length === 0) {
+                listaDiv.innerHTML = `
+                <p>Nenhuma instituição cadastrada encontrada em <b>${cidade}/${uf}</b>.</p>
+                <div class="item nao-cad">
+                  <b>🔗 Outras instituições próximas</b><br>
+                  <a href="https://www.google.com/maps/search/banco+de+leite+${cidade}+${uf}" target="_blank">
+                    Ver bancos de leite e hospitais em ${cidade} no Google Maps
+                  </a>
+                </div>
+              `;
+                return;
+              }
 
-        // 🔹 Adiciona pinos e lista
-        dados.forEach((inst) => {
-          L.marker([inst.latitude, inst.longitude], {
-            icon: L.icon({
-              iconUrl:
-                "https://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png",
-              iconSize: [32, 32],
-            }),
-          })
-            .bindPopup(
-              `<b>${inst.nome}</b><br>${inst.rua}, ${inst.num}<br>${inst.cidade}/${inst.uf}`
-            )
-            .addTo(markersLayer);
+              // 🔹 Adiciona pinos e lista
+              data.forEach(p => {
+        const iconColor = p.origem === 'google' ? 'blue' : 'purple';
 
-          const item = document.createElement("div");
-          item.classList.add("item", "cad");
-          item.innerHTML = `
-          <b>${inst.nome}</b><br>
-          ${inst.rua}, ${inst.num} — ${inst.cidade}/${inst.uf}
-          ${inst.telefone ? `<br>📞 ${inst.telefone}` : ""}
-        `;
-          listaDiv.appendChild(item);
+        const customIcon = L.icon({
+          iconUrl: `https://maps.google.com/mapfiles/ms/icons/${iconColor}-dot.png`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32]
         });
 
-        map.setView([dados[0].latitude, dados[0].longitude], 12);
-      }
-
-      buscarInstituicoes();
+        L.marker([p.latitude, p.longitude], { icon: customIcon })
+          .bindPopup(`
+            <b>${p.nome}</b><br>
+            ${p.rua ? `${p.rua}, ${p.num}<br>` : ""}
+            ${p.cidade}/${p.uf}<br>
+            ${p.origem === 'google' ? `<a href="https://www.google.com/search?q=${encodeURIComponent(p.nome + ' ' + p.cidade)}" target="_blank">Ver no Google 🔗</a>` : ""}
+          `)
+          .addTo(markersLayer);
+      });
     </script>
   </body>
 </html>
