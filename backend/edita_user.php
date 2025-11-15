@@ -3,8 +3,8 @@ require 'includes/conexao.php';
 session_start();
 
 // Verifica se é admin
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] != 'admin') {
-  header("Location: login.php");
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] != 'adm') {
+  header("Location: ../frontend/form_login.php");
   exit;
 }
 
@@ -23,9 +23,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if ($stmt->execute()) {
     echo "<script>
       alert('Usuário atualizado com sucesso!');
-      window.location.href='admin.php';
+      window.location.href='../frontend/adm.php';
     </script>";
   } else {
     echo "<script>
-      alert('Erro ao atualizar usuário.');
-      window.location.href='a
+      alert('Erro ao atualizar instituição.');
+      window.location.href='../frontend/adm.php';
+    </script>";
+  }
+
+  $stmt->close();
+}
+$conn->close();
+?>

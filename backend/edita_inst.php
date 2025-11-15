@@ -2,7 +2,7 @@
 require 'includes/conexao.php';
 session_start();
 
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] != 'admin') {
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] != 'adm') {
   header(header: "Location: login.php");
   exit;
 }
@@ -22,12 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if ($stmt->execute()) {
     echo "<script>
       alert('Instituição atualizada com sucesso!');
-      window.location.href='admin.php';
+      window.location.href='../frontend/adm.php';
     </script>";
   } else {
     echo "<script>
       alert('Erro ao atualizar instituição.');
-      window.location.href='admin.php';
+      window.location.href='../frontend/adm.php';
     </script>";
   }
 

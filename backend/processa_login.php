@@ -1,41 +1,59 @@
 <?php
-    session_start();
-    include_once 'includes/conexao.php';
-    
-    $cpf=$_POST['cpf'];
-    $email=$_POST['email'];
-    $senha=$_POST['senha'];
+session_start();
+include_once '../backend/includes/conexao.php';
 
-    $consulta= "SELECT * FROM usuario WHERE cpf= :cpf AND email = :email AND senha = :senha";
+$cpf = $_POST['cpf'];
+$email = $_POST['email'];
+$senha = $_POST['senha'];
 
-    $stmt = $pdo->prepare($consulta);
-    
-    $stmt->bindParam(':cpf',$cpf);
-    $stmt->bindParam(':email',$email);
-    $stmt->bindParam(':senha',$senha);
+// Consulta segura: compara senha via hash (ideal)
+$sql = "SELECT * FROM usuario 
+        WHERE cpf = :cpf 
+        AND email = :email";
 
-    $stmt->execute();
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':cpf', $cpf);
+$stmt->bindParam(':email', $email);
+$stmt->execute();
 
-    $num_registros= $stmt->rowCount();
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if(!$usuario){
+    // Nenhum usuário encontrado
+    header("Location: index.php?erro=usuario_incorreto");
+    exit();
+}
 
-    var_dump($resultado);
+// Verificação da senha (se estiver usando hash)
+if(!password_verify($senha, $usuario['senha_hash'])){
+    header("Location: index.php?erro=senha_incorreta");
+    exit();
+}
 
-    if($num_registros == 0){
-
-       // possivel alert 
-        header('Location:index.php');
-    }else {
-            $_SESSION['id'] = $resultado['id'];
-            $_SESSION['nome'] = $resultado['nome'];
-            $_SESSION['email'] = $resultado['email'];
-            
-            header('Location:restrita.php');
+// Login — salvar na sessão
+$_SESSION['id_user'] = $usuario['id_user'];
+$_SESSION['nome'] = $usuario['nome_completo'];
+$_SESSION['email'] = $usuario['email'];
+$_SESSION['tipo_user'] = $usuario['tipo_user'];
 
 
-            echo "ACESSO PERMITIDO PARA A RESTRITA.PHP";
-    }
+// REDIRECIONAMENTO POR TIPO DE USUÁRIO
+// -------------------------------------
 
-   
-        
+//Administrador
+
+if ($usuario['tipo_user'] === 'adm') {
+    header("Location: adm.php");
+    exit();
+}
+
+if ($usuario['tipo_user'] === 'inst') {
+    header("Location:../frontend/dashboard_inst.php");  // INSTITUIÇÃO
+    exit();
+}
+
+// Usuário comum
+header("Location: ../frontend/dashboard_user.php");
+exit();
+
+?>

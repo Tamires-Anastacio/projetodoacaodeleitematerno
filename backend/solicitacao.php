@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'conexao.php'; // conexão com o banco
+require 'includes/conexao.php'; // conexão com o banco
 
 $id_instituicao = $_SESSION['id_instituicao']; // vem do login da instituição
 
@@ -24,7 +24,7 @@ $result = $stmt->get_result();
 <body class="bg-light">
 
 <div class="container mt-4">
-  <h2>📨 Solicitações Recebidas</h2>
+  <h2>Solicitações Recebidas</h2>
   <table class="table table-striped mt-3">
     <thead>
       <tr>

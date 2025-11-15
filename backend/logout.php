@@ -6,5 +6,5 @@
         $_SESSION['email']
         
     );
-    header('location: index.php');
+    header('location: ../frontend/index.php');
 ?>

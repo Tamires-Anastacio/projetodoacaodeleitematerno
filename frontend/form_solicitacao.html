@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 require 'conexao.php';
 
 // Verifica login
@@ -10,24 +10,25 @@ if (!isset($_SESSION['id_user'])) {
 
 // Busca dados do usuário
 $id_user = $_SESSION['id_user'];
+
 $stmt = $conn->prepare("SELECT cidade, uf FROM usuario WHERE id_user = ?");
 $stmt->bind_param("i", $id_user); $stmt->execute(); $user =
 $stmt->get_result()->fetch_assoc(); $cidade = $user['cidade']; $uf =
-$user['uf']; // Busca instituições próximas (mesma cidade e UF) $stmt2 =
-$conn->prepare("SELECT id_instituicao, nome FROM instituicao WHERE cidade = ?
-AND uf = ?"); $stmt2->bind_param("ss", $cidade, $uf); $stmt2->execute();
-$instituicoes = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC); // Envio do
-formulário if ($_SERVER["REQUEST_METHOD"] === "POST") { $tipo =
-$_POST['tipo_solicitacao']; $observacao = trim($_POST['observacao']);
-$id_instituicao = $_POST['id_instituicao']; $stmt3 = $conn->prepare("INSERT INTO
-solicitacao (id_user, id_instituicao, tipo_solicitacao, observacao) VALUES (?,
-?, ?, ?)"); $stmt3->bind_param("iiss", $id_user, $id_instituicao, $tipo,
-$observacao); if ($stmt3->execute()) { echo "
+$user['uf']; // Busca instituições próximas $stmt2 = $conn->prepare("SELECT
+id_instituicao, nome FROM instituicao WHERE cidade = ? AND uf = ?");
+$stmt2->bind_param("ss", $cidade, $uf); $stmt2->execute(); $instituicoes =
+$stmt2->get_result()->fetch_all(MYSQLI_ASSOC); // Envio do formulário if
+($_SERVER["REQUEST_METHOD"] === "POST") { $tipo = $_POST['tipo_solicitacao'];
+$observacao = trim($_POST['observacao']); $id_instituicao =
+$_POST['id_instituicao']; $stmt3 = $conn->prepare( "INSERT INTO solicitacao
+(id_user, id_instituicao, tipo_solicitacao, observacao) VALUES (?, ?, ?, ?)" );
+$stmt3->bind_param("iiss", $id_user, $id_instituicao, $tipo, $observacao); if
+($stmt3->execute()) { echo "
 <script>
   alert(
     "Solicitação enviada com sucesso! As instituições próximas foram notificadas."
   );
-  window.location.href = "perfil_user.php";
+  window.location.href = "dashboard_user.php";
 </script>
 "; } else { echo "
 <script>
