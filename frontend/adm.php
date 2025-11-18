@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>Painel Administrativo</title>
+    <title>PAINEL ADMINISTRATIVO</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -20,25 +21,33 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
       .nav-link.active {
-        background: #7b2ff7 !important;
+        background: #ec23ba !important;
         color: white !important;
         border-radius: 8px;
       }
       table {
         font-size: 0.9rem;
       }
+      .table th, .table td {
+        padding: 1rem;
+      }
+      .container {
+        max-width: 1200px;
+      }
+      
     </style>
   </head>
 
   <body>
     <div class="container mt-4">
       <div class="card p-4">
-        <h2 class="text-center mb-3 text-primary">Painel Administrativo</h2>
+        <h2 class="text-center mb-3 text-primary">PAINEL ADMINISTRATIVO</h2>
 
         <!-- ABAS -->
         <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button
+              type="button"
               class="nav-link active"
               id="logins-tab"
               data-bs-toggle="tab"
@@ -79,14 +88,14 @@
             >
               Instituições
             </button>
+            
           </li>
         </ul>
-
         <!-- CONTEÚDO DAS ABAS -->
         <div class="tab-content">
           <!-- LOGIN -->
           <div class="tab-pane fade show active" id="logins">
-            <h5>📌 Histórico de Entradas</h5>
+            <h5> Histórico de Entradas</h5>
             <table class="table table-striped mt-3">
               <thead>
                 <tr>
@@ -109,7 +118,7 @@
 
           <!-- SOLICITAÇÕES -->
           <div class="tab-pane fade" id="solicitacoes">
-            <h5>📌 Solicitações</h5>
+            <h5> Solicitações</h5>
             <table class="table table-bordered mt-3">
               <thead>
                 <tr>
@@ -136,7 +145,7 @@
 
           <!-- USUÁRIOS -->
           <div class="tab-pane fade" id="usuarios">
-            <h5>📌 Usuários Cadastrados</h5>
+            <h5> Usuários Cadastrados</h5>
             <table class="table table-hover mt-3">
               <thead>
                 <tr>
@@ -163,7 +172,7 @@
 
           <!-- INSTITUIÇÕES -->
           <div class="tab-pane fade" id="instituicoes">
-            <h5>📌 Instituições</h5>
+            <h5> Instituições</h5>
             <table class="table table-striped mt-3">
               <thead>
                 <tr>
