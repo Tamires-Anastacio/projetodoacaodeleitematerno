@@ -1,9 +1,20 @@
 <?php
+require "../backend/includes/conexao.php";
 session_start();
-if (!isset($_SESSION['id'])) {
-    header("Location: ../frontend/doacao_leite_materno/index.html");
+
+// Verifica se a sessão está definida corretamente (usuário logado)
+if (!isset($_SESSION['id']) || !isset($_SESSION['nome']) || !isset($_SESSION['email'])) {
+    // Caso algum campo de sessão não esteja definido, destrói a sessão e redireciona para a página inicial
+    unset($_SESSION['id']);
+    unset($_SESSION['nome']);
+    unset($_SESSION['email']);
+
+    header('Location: index.php');
     exit;
 }
+
+// Caso a sessão esteja válida, exibe o conteúdo restrito (exemplo)
+// Adicione aqui o código da página restrita, que só deve ser acessada se o usuário estiver logado.
 ?>
 
 <!DOCTYPE html>

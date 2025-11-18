@@ -1,5 +1,22 @@
 <?php
-$id_instituicao = $_SESSION['id_instituicao'];
+
+session_start();
+
+// Verifica se a sessão está definida corretamente (usuário logado)
+if( (!isset($_SESSION['id'])== true) and (!isset($_SESSION['nome'])==true) and (!isset($_SESSION['email'])==true)) {
+    // Caso algum campo de sessão não esteja definido, destrói a sessão e redireciona para a página inicial
+    unset($_SESSION['id']);
+    unset($_SESSION['nome']);
+    unset($_SESSION['email']);
+
+    header('Location:login_user.php
+    ';)
+ include_once '../backend/icludes/conexao.php';
+}
+
+// Caso a sessão esteja válida, exibe o conteúdo restrito (exemplo)
+// Adicione aqui o código da página restrita, que só deve ser acessada se o usuário estiver logado.
+
 $sql = "SELECT * FROM notificacao WHERE id_instituicao = ? AND lida = 0 ORDER BY data_envio DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_instituicao);

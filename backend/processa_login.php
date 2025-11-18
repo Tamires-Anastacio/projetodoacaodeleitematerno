@@ -18,14 +18,29 @@ if (!$email || !$senha) {
     exit;
 }
 
-// Busca usuário pelo email
-$sql = "SELECT * FROM usuario WHERE email = :email LIMIT 1";
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':email', $email);
-$stmt->execute();
+// Busca usuário na tabela usuario
+$sql_usuario = "SELECT * FROM usuario WHERE email = :email LIMIT 1";
+$stmt_usuario = $pdo->prepare($sql_usuario);
+$stmt_usuario->bindValue(':email', $email);
+$stmt_usuario->execute();
+$usuario = $stmt_usuario->fetch(PDO::FETCH_ASSOC);
 
-$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+// Se não encontrar na tabela usuario, procura na tabela instituicao
+if (!$usuario) {
+    $sql_instituicao = "SELECT * FROM instituicao WHERE email = :email LIMIT 1";
+    $stmt_instituicao = $pdo->prepare($sql_instituicao);
+    $stmt_instituicao->bindValue(':email', $email);
+    $stmt_instituicao->execute();
+    $instituicao = $stmt_instituicao->fetch(PDO::FETCH_ASSOC);
 
+    // Se encontrar na tabela instituicao, define como tipo de usuário 'inst'
+    if ($instituicao) {
+        $usuario = $instituicao;
+        $usuario['tipo_user'] = 'inst'; // Define que é uma instituição
+    }
+}
+
+// Se não encontrar em nenhum dos casos
 if (!$usuario) {
     echo "<script>
     Swal.fire({
@@ -37,8 +52,8 @@ if (!$usuario) {
     exit;
 }
 
-// Verifica senha
-if (!password_verify($senha, $usuario['senha_hash'])) {
+// Verifica a senha
+if (!password_verify($senha, $usuario['senha'])) {
     echo "<script>
     Swal.fire({
         icon: 'error',
@@ -50,8 +65,8 @@ if (!password_verify($senha, $usuario['senha_hash'])) {
 }
 
 // Login bem-sucedido, salva na sessão
-$_SESSION['id_user'] = $usuario['id_user'];
-$_SESSION['nome'] = $usuario['nome_completo'];
+$_SESSION['id_user'] = $usuario['id_user'] ?? $usuario['id_instituicao']; // ID pode ser diferente nas tabelas
+$_SESSION['nome'] = $usuario['nome_completo'] ?? $usuario['nome']; // Nome pode ter campos diferentes nas tabelas
 $_SESSION['email'] = $usuario['email'];
 $_SESSION['tipo_user'] = $usuario['tipo_user'];
 
@@ -61,7 +76,8 @@ switch ($usuario['tipo_user']) {
         header("Location: ../frontend/adm.php");
         break;
     case 'inst':
-        header("Location: ../frontend/dashboard_inst.html");
+        header("Location: ../frontend/dashboard_inst.php
+        ");
         break;
     default:
         header("Location: ../frontend/dashboard_user.html");

@@ -35,7 +35,9 @@ CREATE TABLE instituicao (
     num INT NOT NULL,
     telefone CHAR(15),
     email VARCHAR(100),
-    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
+    tipo_user ENUM('adm','inst','user') NOT NULL DEFAULT 'inst',
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    senha varchar(100)
 );
 
 

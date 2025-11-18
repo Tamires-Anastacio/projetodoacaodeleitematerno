@@ -1,4 +1,6 @@
 {
   "liveServer.settings.port": 5503,
-  "editor.inlayHints.enabled": "off"
+  "editor.inlayHints.enabled": "off",
+  "editor.formatOnType": true,
+  "editor.formatOnSave": true
 }

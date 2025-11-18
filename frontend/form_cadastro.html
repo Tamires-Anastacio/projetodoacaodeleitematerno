@@ -244,6 +244,21 @@
     </main>
 
     <script>
+
+       function verificarSenhas() {
+      // Obtendo os valores dos campos de senha
+      var senha = document.getElementById("senha").value;
+      var confirmarSenha = document.getElementById("confsenha").value;
+      
+      // Se as senhas não coincidem, exibe uma mensagem de erro
+      if (senha !== confirmarSenha) {
+        document.getElementById("erro_senha").innerHTML = "As senhas não coincidem. Tente novamente!";
+        return false; // Impede o envio do formulário
+      } else {
+        document.getElementById("erro_senha").innerHTML = ""; // Limpa a mensagem de erro
+        return true; // Permite o envio do formulário
+      }
+    }
       // Máscara telefone
       document.getElementById("fone").addEventListener("input", function (e) {
         let value = e.target.value.replace(/\D/g, "");

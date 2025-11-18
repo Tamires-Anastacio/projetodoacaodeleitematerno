@@ -182,7 +182,7 @@
         </button>
         <!-- =============================== -->
 
-        <form action="cadastro_instituicao.php" method="post">
+        <form action="../backend/cadastro_inst.php" method="post">
           <label class="comic-relief-regular" for="nome"
             >Nome da Instituição</label
           >
@@ -195,7 +195,29 @@
             >Certificação / Alvará</label
           >
           <input type="text" name="certificacao" id="certificacao" required />
-
+          <label class="comic-relief-regular" for="telefone">Telefone</label>
+          <input
+            type="tel"
+            name="telefone"
+            id="fone"
+            maxlength="15"
+            placeholder="(xx) xxxxx-xxxx"
+            required
+          />
+          <label class="comic-relief-regular" for="email">Especialidade</label>
+          <select id="especialidade" name="especialidade">
+            <option value="">Selecionar</option>
+    <option value="banco_de_leite">Banco de Leite</option>
+    <option value="hospitais_gerais">Hospitais Gerais</option>
+    <option value="unidade_neo_natal">Unidade Neonatal</option>
+    <option value="centros_de_saude">Centros de Saúde</option>
+    <option value="clínicas_maternidade">Clínicas de Maternidade</option>
+    <option value="instituicoes_caridade">Instituições de Caridade</option>
+    <option value="consultorios_lactacao">Consultórios de Lactação</option>
+  </select>
+          
+ <label class="comic-relief-regular" for="email">Email</label>
+          <input type="email" name="email" id="email" required />
           <div class="mid">
             <div class="col">
               <label class="comic-relief-regular" for="rua">Rua</label>
@@ -262,6 +284,12 @@
               </select>
             </div>
           </div>
+          <label class="comic-relief-regular" for="senha">Senha</label>
+          <input type="password" name="senha" id="senha" required />
+
+          <label class="comic-relief-regular" for="confsenha">
+            Confirme sua Senha</label>
+            <input type="password" name="confsenha" id="confsenha" required />
 
           <input class="submit" type="submit" value="Cadastrar" />
         </form>
@@ -269,6 +297,21 @@
     </main>
 
     <script>
+
+       function verificarSenhas() {
+      // Obtendo os valores dos campos de senha
+      var senha = document.getElementById("senha").value;
+      var confirmarSenha = document.getElementById("confsenha").value;
+      
+      // Se as senhas não coincidem, exibe uma mensagem de erro
+      if (senha !== confirmarSenha) {
+        document.getElementById("erro_senha").innerHTML = "As senhas não coincidem. Tente novamente!";
+        return false; // Impede o envio do formulário
+      } else {
+        document.getElementById("erro_senha").innerHTML = ""; // Limpa a mensagem de erro
+        return true; // Permite o envio do formulário
+      }
+    }
       // Máscara CNPJ
       document.getElementById("cnpj").addEventListener("input", function (e) {
         let v = e.target.value.replace(/\D/g, "");
@@ -284,6 +327,19 @@
           v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
         else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
         e.target.value = v;
+      });
+      document.getElementById("fone").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length > 10) {
+          value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        } else if (value.length > 6) {
+          value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        } else if (value.length > 2) {
+          value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+        } else {
+          value = value.replace(/^(\d*)/, "($1");
+        }
+        e.target.value = value;
       });
 
       // API IBGE
