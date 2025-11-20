@@ -1,5 +1,4 @@
-<?php
-require 'includes/conexao.php';
+include_once '..\backend\includes/conexao.php';
 session_start();
 
 if (!isset($_SESSION['id_instituicao'])) {

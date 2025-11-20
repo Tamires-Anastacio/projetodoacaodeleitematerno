@@ -1,21 +1,17 @@
 <?php
-require "../backend/includes/conexao.php";
 session_start();
+require "../backend/includes/conexao.php";
 
-// Verifica se a sessão está definida corretamente (usuário logado)
-if (!isset($_SESSION['id']) || !isset($_SESSION['nome']) || !isset($_SESSION['email'])) {
-    // Caso algum campo de sessão não esteja definido, destrói a sessão e redireciona para a página inicial
-    unset($_SESSION['id']);
-    unset($_SESSION['nome']);
-    unset($_SESSION['email']);
+if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome']) || !isset($_SESSION['email']) || !isset($_SESSION['tipo_user']) ){
 
-    header('Location: index.php');
+    session_unset();
+    session_destroy();
+
+    header('Location: ../frontend/index.html');
     exit;
 }
-
-// Caso a sessão esteja válida, exibe o conteúdo restrito (exemplo)
-// Adicione aqui o código da página restrita, que só deve ser acessada se o usuário estiver logado.
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -38,6 +34,10 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['nome']) || !isset($_SESSION['em
       .offcanvas-header {
         background-color: rosybrown;
       }
+      a{
+        text-decoration: none;
+        color:black
+      }
 
       .offcanvas-body {
         ul,
@@ -59,11 +59,14 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['nome']) || !isset($_SESSION['em
         text-decoration: none;
         font-family: inherit;
         font-size: 75%;
+        color: black
       }
 
       button.learn-more {
+        width: 130px;
+        height: auto;
         font-weight: 600;
-        color: #382b22;
+        color: #cf5a07ff;
         text-transform: uppercase;
         padding: 1.25em 2em;
         background: #fff0f0;
@@ -256,99 +259,18 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['nome']) || !isset($_SESSION['em
       h1{
         margin-top: 10%;
       }
+      li{
+        margin:2%
+      }
     </style>
   </head>
   <body>
-    <nav class="navbar bg-tertiary fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Offcanvas navbar</a>
-
-        <button
-          class="btn navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span class="icon">
-            <svg viewBox="0 0 175 80" width="40" height="40">
-              <rect width="80" height="15" fill="#f0f0f0" rx="10"></rect>
-              <rect y="30" width="80" height="15" fill="#f0f0f0" rx="10"></rect>
-              <rect y="60" width="80" height="15" fill="#f0f0f0" rx="10"></rect>
-            </svg>
-          </span>
-          <span class="text">MENU</span>
-        </button>
-        <div
-          class="offcanvas offcanvas-end"
-          tabindex="-1"
-          id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a href="#"><button class="learn-more">Entrar</button></a>
-              </li>
-              <li class="nav-item">
-                <a href="#"><button class="learn-more">Entrar</button></a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="#"><button class="learn-more">Entrar</button></a>
-                  </li>
-                  <li>
-                    <a href="#"><button class="learn-more">Entrar</button></a>
-                  </li>
-
-                  <li>
-                    <a href="#"><button class="learn-more">Entrar</button></a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="logout.php">
-                  <button class="Btns">
-                    <div class="sign">
-                      <svg viewBox="0 0 512 512">
-                        <path
-                          d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
-                        ></path>
-                      </svg>
-                    </div>
-
-                    <div class="texts">Sair</div>
-                  </button>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <?php
+    include_once '..\backend\includes/header.php';
+    ?> 
     <h1>
       Bem-vindo,
-      <?php echo $_SESSION['nome_completo']; ?>!
+      <?php echo $_SESSION['nome']; ?>!
     </h1>
 
     <section class="container text-center">

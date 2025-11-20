@@ -13,12 +13,12 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
         <li class="nav-item">
-                <button >
-                    <a href="form_login.html">LOGAR</a>
+                <button class="learn-more" >
+                    <a href="map_user.php">Buscar Instituições</a>
                 </button> 
             </li>
             <li class="nav-item">
-                    <button >
+                    <button class="learn-more">
                         <a href="form_cadastro.html">Cadastre-se</a>
                     </button>
             </li>

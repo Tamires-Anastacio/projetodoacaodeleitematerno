@@ -3,7 +3,7 @@ USE sistema;
 
 
 --  TABELA: USUÁRIO
-  --de
+
 CREATE TABLE usuario (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     cpf VARCHAR(14) NOT NULL UNIQUE,
@@ -37,7 +37,7 @@ CREATE TABLE instituicao (
     email VARCHAR(100),
     tipo_user ENUM('adm','inst','user') NOT NULL DEFAULT 'inst',
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    senha varchar(100)
+    senha_hash varchar(100)
 );
 
 

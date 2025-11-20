@@ -1,5 +1,5 @@
 <?php
-require 'conexao.php';
+require 'includes\conexao.php';
 session_start();
 
 $id_solicitacao = $_GET['id'];

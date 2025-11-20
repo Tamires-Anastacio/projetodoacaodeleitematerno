@@ -53,7 +53,7 @@ if (!$usuario) {
 }
 
 // Verifica a senha
-if (!password_verify($senha, $usuario['senha'])) {
+if (!password_verify($senha, $usuario['senha_hash'])) {
     echo "<script>
     Swal.fire({
         icon: 'error',
@@ -80,7 +80,7 @@ switch ($usuario['tipo_user']) {
         ");
         break;
     default:
-        header("Location: ../frontend/dashboard_user.html");
+        header("Location: ../frontend/dashboard_user.php");
         break;
 }
 exit;

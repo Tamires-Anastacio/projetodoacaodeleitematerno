@@ -2,33 +2,33 @@
 
 require 'includes/conexao.php';
 
+$nome_completo = trim($_POST['nome_completo']);
+$cpf = trim($_POST['cpf']);
+$telefone = trim($_POST['telefone']); 
+$data_nascimento = trim($_POST['data_nascimento']);
+$email = trim($_POST['email']);
+$senha = trim($_POST['senha']);
+$uf = trim($_POST['uf']);
+$cidade = trim($_POST['cidade']);
 
+$senha_hash = password_hash($senha, PASSWORD_BCRYPT); // Hash seguro da senha
 
+// Verificação correta dos campos — não precisa verificar o hash
+if ($nome_completo && $cpf && $data_nascimento && $email && $senha && $uf && $cidade) {
 
-$nome_completo = $POST['nome_completo'];
-$cpf = $POST['cpf'] ;
-$telefone = $POST['telefone'] ; 
-$data_nascimento = $POST['data_nascimento'] ;
-$email = $POST['email'] ;
-$senha_hash = md5['senha'] ;
-$uf = $POST['uf'] ;
-$cidade = $POST['cidade'] ;
+    $sql = "INSERT INTO usuario 
+            (nome_completo, cpf, email, telefone, data_nascimento, senha_hash, uf, cidade) 
+            VALUES 
+            (:nome_completo, :cpf, :email, :telefone, :data_nascimento, :senha_hash, :uf, :cidade)";
 
-
-
-if ($nome && $cpf && $data_nascimento && $email && $senha_hash && $uf && $cidade) {
-
-    $sql = "INSERT INTO usuario (nome_completo, cpf, email, telefone, data_nascimento, senha, uf, cidade) 
-            VALUES (:nome_completo, :cpf, :email, :telefone, :data_nascimento, :senha_hash, :uf, :cidade)";
-    
     $stmt = $pdo->prepare($sql);
 
-    $stmt->bindParam(':nome_completo', $nome);
+    $stmt->bindParam(':nome_completo', $nome_completo);
     $stmt->bindParam(':cpf', $cpf);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':telefone', $telefone);
-    $stmt->bindParam(':Pos$POSTnascimento', $POSTnascimento);
-    $stmt->bindParam(':senha', $senha_hash);
+    $stmt->bindParam(':data_nascimento', $data_nascimento);
+    $stmt->bindParam(':senha_hash', $senha_hash);
     $stmt->bindParam(':uf', $uf);
     $stmt->bindParam(':cidade', $cidade);
 
@@ -42,6 +42,8 @@ if ($nome && $cpf && $data_nascimento && $email && $senha_hash && $uf && $cidade
     } catch (PDOException $e) {
         echo json_encode(["success" => false, "message" => "Erro PDO: " . $e->getMessage()]);
     }
+
 } else {
     echo json_encode(["success" => false, "message" => "Preencha todos os campos."]);
 }
+

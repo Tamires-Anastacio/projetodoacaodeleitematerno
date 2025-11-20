@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+require "../backend/includes/conexao.php";
 
 // Verifica se a sessão está definida corretamente (usuário logado)
 if( (!isset($_SESSION['id'])== true) and (!isset($_SESSION['nome'])==true) and (!isset($_SESSION['email'])==true)) {
@@ -9,27 +9,26 @@ if( (!isset($_SESSION['id'])== true) and (!isset($_SESSION['nome'])==true) and (
     unset($_SESSION['nome']);
     unset($_SESSION['email']);
 
-    header('Location:login_user.php
-    ';)
- include_once '../backend/icludes/conexao.php';
+    header('Location:login_user.php');
+
 }
 
 // Caso a sessão esteja válida, exibe o conteúdo restrito (exemplo)
 // Adicione aqui o código da página restrita, que só deve ser acessada se o usuário estiver logado.
 
 $sql = "SELECT * FROM notificacao WHERE id_instituicao = ? AND lida = 0 ORDER BY data_envio DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_instituicao);
-$stmt->execute();
-$result = $stmt->get_result();
+// $stmt = prepare($sql);
+// $stmt->bind_param("i", $id_instituicao);
+// $stmt->execute();
+// $result = $stmt->get_result();
 
-while($n = $result->fetch_assoc()) {
-    echo "<div class='alert alert-info'>
-            🔔 {$n['mensagem']} 
-            <a href='solicitacoes.php' class='btn btn-sm btn-outline-primary'>Ver</a>
-          </div>";
-}
-?>
+// while($n = $result->fetch_assoc()) {
+//     echo "<div class='alert alert-info'>
+//             🔔 {$n['mensagem']} 
+//             <a href='solicitacoes.php' class='btn btn-sm btn-outline-primary'>Ver</a>
+//           </div>";
+// }
+// ?>
 
 <!DOCTYPE html>
 <html lang="en">
