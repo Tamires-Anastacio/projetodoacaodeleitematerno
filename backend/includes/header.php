@@ -18,9 +18,11 @@
                 </button> 
             </li>
             <li class="nav-item">
+                 <a href="form_cadastro.html">
                     <button class="learn-more">
-                        <a href="form_cadastro.html">Cadastre-se</a>
+                         Cadastre-se
                     </button>
+                  </a>
             </li>
           
         </ul>
