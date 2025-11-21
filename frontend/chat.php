@@ -1,5 +1,5 @@
 <?php
-require 'includes\conexao.php';
+require 'includes/conexao.php';
 session_start();
 
 $id_solicitacao = $_GET['id'];
@@ -7,10 +7,17 @@ $id_user = $_SESSION['id_user'];
 
 // Busca dados da solicitação
 $sql = "SELECT id_user, id_instituicao FROM solicitacao WHERE id_solicitacao = ?";
-$stmt = $conn->prepare($sql); $stmt->bind_param("i", $id_solicitacao);
-$stmt->execute(); $sol = $stmt->get_result()->fetch_assoc(); $destinatario =
-($id_user == $sol['id_user']) ? $sol['id_instituicao'] : $sol['id_user']; ?>
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$id_solicitacao]);
+$sol = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if (!$sol) {
+    die("Solicitação não encontrada.");
+}
+
+// Define o destinatário
+$destinatario = ($id_user == $sol['id_user']) ? $sol['id_instituicao'] : $sol['id_user'];
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -70,31 +77,29 @@ $stmt->execute(); $sol = $stmt->get_result()->fetch_assoc(); $destinatario =
       <h3>💬 Conversa</h3>
       <div id="mensagens">
         <?php
-    $msgQuery = "SELECT * FROM mensagem 
-                 WHERE (id_remetente = ? AND id_destinatario = ?) 
-                    OR (id_remetente = ? AND id_destinatario = ?)
-                 ORDER BY data_envio";
-    $stmtMsg = $conn->prepare($msgQuery); $stmtMsg->bind_param("iiii", $id_user,
-        $destinatario, $destinatario, $id_user); $stmtMsg->execute(); $mensagens
-        = $stmtMsg->get_result(); while ($m = $mensagens->fetch_assoc()) {
-        $classe = ($m['id_remetente'] == $id_user) ? 'enviada' : 'recebida';
-        echo "
-        <div class="msg $classe">" . htmlspecialchars($m['conteudo']) . "</div>
-        "; } ?>
+            // Buscar mensagens entre os usuários
+            $msgQuery = "SELECT * FROM mensagem
+                         WHERE (id_remetente = ? AND id_destinatario = ?)
+                            OR (id_remetente = ? AND id_destinatario = ?)
+                         ORDER BY data_envio";
+
+            $stmtMsg = $pdo->prepare($msgQuery);
+            $stmtMsg->execute([$id_user, $destinatario, $destinatario, $id_user]);
+            $mensagens = $stmtMsg->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($mensagens as $m) {
+                $classe = ($m['id_remetente'] == $id_user) ? 'enviada' : 'recebida';
+                
+                echo '<div class="msg ' . $classe . '">' .
+                        htmlspecialchars($m['conteudo']) .
+                     '</div>';
+            }
+        ?>
       </div>
 
       <form method="POST" action="enviar_mensagem.php">
-        <input
-          type="hidden"
-          name="id_destinatario"
-          value="<?= $destinatario ?>"
-        />
-        <input
-          type="text"
-          name="conteudo"
-          placeholder="Digite sua mensagem..."
-          required
-        />
+        <input type="hidden" name="id_destinatario" value="<?= $destinatario ?>" />
+        <input type="text" name="conteudo" placeholder="Digite sua mensagem..." required />
         <button type="submit">Enviar</button>
       </form>
     </div>

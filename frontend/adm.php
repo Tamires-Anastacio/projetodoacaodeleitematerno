@@ -1,3 +1,76 @@
+<?php
+    if (file_exists(__DIR__ . '/../backend/conexao.php')) {
+        require __DIR__ . '/../backend/conexao.php';
+    } elseif (file_exists(__DIR__ . '/conexao.php')) {
+        require __DIR__ . '/conexao.php';
+    } else {
+        die('Arquivo conexao.php não encontrado. Coloque-o em ../backend/ ou na mesma pasta do adm.php.');
+    }
+
+    if (!isset($pdo) || !$pdo instanceof PDO) {
+        die('Variável $pdo não definida no arquivo de conexão. Verifique conexao.php (não use echo; só crie $pdo).');
+    }
+
+  try {
+      // ===== HISTÓRICO DE LOGINS =====
+      $logins = [];
+      $res = $pdo->query("SHOW TABLES LIKE 'logins'");
+      if ($res && $res->rowCount() > 0) {
+          $stmt = $pdo->query("
+              SELECT u.nome_completo AS nome, l.data, l.ip
+              FROM logins l
+              JOIN usuario u ON u.id_user = l.id_user
+              ORDER BY l.data DESC
+          ");
+          $logins = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+
+      // ===== SOLICITAÇÕES =====
+      $stmt = $pdo->query("
+          SELECT 
+              u.nome_completo AS nome_user,
+              i.nome AS nome_inst,
+              s.tipo_solicitacao,
+              s.observacao,
+              s.data_solicitacao AS data
+          FROM solicitacao s
+          JOIN usuario u ON u.id_user = s.id_user
+          JOIN instituicao i ON i.id_instituicao = s.id_instituicao
+          ORDER BY s.data_solicitacao DESC
+      ");
+      $solicitacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      // ===== USUÁRIOS =====
+      $stmt = $pdo->query("
+          SELECT 
+              nome_completo AS nome,
+              email,
+              cidade,
+              uf,
+              tipo_user AS tipo
+              FROM usuario
+              ORDER BY nome_completo ASC
+      ");
+      $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      // ===== INSTITUIÇÕES =====
+      $stmt = $pdo->query("
+          SELECT nome, cidade, uf, telefone
+          FROM instituicao
+          ORDER BY nome ASC
+      ");
+      $instituicoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  } catch (PDOException $e) {
+      
+      die('Erro nas consultas ao banco: ' . $e->getMessage());
+  }
+
+  $logins = $logins ?? [];
+  $solicitacoes = $solicitacoes ?? [];
+  $usuarios = $usuarios ?? [];
+  $instituicoes = $instituicoes ?? [];
+  ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -12,13 +85,14 @@
 
     <style>
       body {
-        background: #f0ecff;
+        background: #b776f3ff;
         font-family: "Poppins", sans-serif;
       }
       .card {
         border: none;
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: #f7b9f1ff;
       }
       .nav-link.active {
         background: #ec23ba !important;
@@ -41,7 +115,7 @@
   <body>
     <div class="container mt-4">
       <div class="card p-4">
-        <h2 class="text-center mb-3 text-primary">PAINEL ADMINISTRATIVO</h2>
+        <h2 class="text-center mb-3 text-black">PAINEL ADMINISTRATIVO</h2>
 
         <!-- ABAS -->
         <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
