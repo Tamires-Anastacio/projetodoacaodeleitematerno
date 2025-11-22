@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
 
     <style>
         body {
@@ -38,7 +40,8 @@
             margin-top: 10px;
         }
 
-        input, select {
+        input,
+        select {
             border-radius: 8px !important;
             height: 45px;
             border: 1px solid #d1d5db !important;
@@ -47,7 +50,8 @@
             transition: 0.2s;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #4c8bf5 !important;
             box-shadow: 0 0 3px #4c8bf555 !important;
         }
@@ -110,8 +114,7 @@
             <h1>Cadastro</h1>
 
             <!-- BOTÃO INSTITUIÇÃO -->
-            <button class="btn-instituicao" type="button"
-                onclick="window.location.href='form_cadastro_inst.html'">
+            <button class="btn-instituicao" type="button" onclick="window.location.href='form_cadastro_inst.html'">
                 Sou uma Instituição
             </button>
 
@@ -132,12 +135,33 @@
                 <select id="uf" name="uf" required onchange="carregarCidades()">
                     <option value="">Selecione</option>
                     <!-- estados -->
-                    <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option>
-                    <option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option>
-                    <option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option>
-                    <option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
-                    <option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option>
-                    <option>SE</option><option>TO</option>
+                    <option>AC</option>
+                    <option>AL</option>
+                    <option>AP</option>
+                    <option>AM</option>
+                    <option>BA</option>
+                    <option>CE</option>
+                    <option>DF</option>
+                    <option>ES</option>
+                    <option>GO</option>
+                    <option>MA</option>
+                    <option>MT</option>
+                    <option>MS</option>
+                    <option>MG</option>
+                    <option>PA</option>
+                    <option>PB</option>
+                    <option>PR</option>
+                    <option>PE</option>
+                    <option>PI</option>
+                    <option>RJ</option>
+                    <option>RN</option>
+                    <option>RS</option>
+                    <option>RO</option>
+                    <option>RR</option>
+                    <option>SC</option>
+                    <option>SP</option>
+                    <option>SE</option>
+                    <option>TO</option>
                 </select>
 
                 <label for="cidade">Cidade</label>
@@ -220,4 +244,5 @@
     </script>
 
 </body>
+
 </html>
