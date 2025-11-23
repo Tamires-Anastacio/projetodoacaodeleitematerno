@@ -8,7 +8,6 @@
   <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    /* ===================== GERAL ===================== */
     html {
       scroll-behavior: smooth;
     }
@@ -99,11 +98,23 @@
       background: #ffffff;
       padding: 0.5rem 1rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
     }
 
-    .navbar-brand img {
-      height: 30px;
+    /* Navbar centralizado - Sobre */
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #212529;
     }
+
+    .navbar-brand:hover {
+      color: #0d6efd;
+    }
+
 
     .navbar-nav .nav-link {
       color: #212529;
@@ -113,21 +124,6 @@
 
     .navbar-nav .nav-link:hover {
       color: #0d6efd;
-    }
-
-    /* Logo central responsivo */
-    .navbar-brand.center-logo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    @media (max-width: 575px) {
-      .navbar-brand.center-logo {
-        position: static;
-        transform: none;
-        margin-bottom: 0.5rem;
-      }
     }
 
     /* ===================== FOOTER ===================== */
@@ -157,16 +153,11 @@
 <body>
   <nav class="navbar fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
-      <!-- Logo Central -->
-      <a class="navbar-brand mx-auto position-absolute start-50 translate-middle-x" href="#">
-        <img src="https://via.placeholder.com/100x40?text=Logo" height="30" alt="Logo" />
-      </a>
-
-      <!-- Nome do site (esquerda) -->
-      <a class="navbar-brand me-3" href="#">Sobre</a>
-
       <!-- Links da direita -->
       <ul class="navbar-nav d-flex flex-row gap-3 ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#mamilos">Tipos de mamilos</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="#descida">Descida do Leite</a>
         </li>
@@ -224,11 +215,8 @@
 
         <div class="col-md-4">
           <figure class="image-slot" aria-hidden="true">
-            <img src="../backend/img/sobre.png" alt="Imagem ilustrativa sobre descida do leite" />
+            <img src="../backend/img/apojadura.jpg" alt="Imagem ilustrativa sobre descida do leite" />
           </figure>
-          <figcaption class="small text-muted mt-2">
-            Espaço para imagem (ilustrativa).
-          </figcaption>
         </div>
       </div>
     </section>
@@ -238,6 +226,13 @@
         <div class="col-md-7">
           <h2>Pega, posição e avaliação do frênulo lingual</h2>
           <p>
+            A avaliação do frênulo lingual, também conhecido como "teste da linguinha", é um procedimento obrigatório no
+            Brasil para identificar se o freio da língua está encurtado e pode afetar a amamentação e o desenvolvimento
+            da fala. A avaliação envolve a observação da posição da língua (em repouso e durante o choro ou sucção) e o
+            teste da mobilidade, onde o profissional eleva a língua para verificar o formato da ponta e a extensão do
+            frênulo. O protocolo Bristol é uma ferramenta de avaliação que analisa a aparência da ponta da língua, a
+            fixação do frênulo, a elevação e a projeção da língua, para pontuar a gravidade da anquiloglossia (língua
+            presa).
             Verifique na Caderneta da Criança se a maternidade realizou
             avaliação do frênulo lingual. Caso não tenha sido avaliado,
             deve-se procurar uma Unidade Básica de Saúde ou retornar na
@@ -265,13 +260,8 @@
 
         <div class="col-md-5">
           <div class="image-slot">
-            <img src="https://via.placeholder.com/380x240?text=Pega+e+Posi%C3%A7%C3%A3o"
-              alt="Imagem demonstrando pega e posições de amamentação" />
+            <img src="../backend/img/bebe simpatico.jfif" alt="Imagem demonstrando pega e posições de amamentação" />
           </div>
-          <p class="small text-muted mt-2">
-            Espaço para sequência de imagens/infográficos sobre posições de
-            amamentar.
-          </p>
         </div>
       </div>
     </section>
@@ -290,13 +280,8 @@
 
         <div class="col-md-6">
           <div class="image-slot">
-            <img src="https://via.placeholder.com/420x200?text=Tipos+de+Mamilos"
-              alt="Ilustração de tipos de mamilos (espaço reservado)" />
+            <img src="../backend/img/tipos de mamilos.jpg" alt="Ilustração de tipos de mamilos (espaço reservado)" />
           </div>
-          <p class="small text-muted mt-2">
-            Espaço para ilustrações ou fotos educativas (use imagens neutras e
-            educativas).
-          </p>
         </div>
       </div>
     </section>
@@ -306,17 +291,25 @@
         <div class="col-md-8">
           <h2>Mastite</h2>
           <p>
-            É a inflamação da mama, que pode progredir ou não para uma
-            infecção. Pode acontecer quando o leite fica muito tempo parado no
-            peito e/ou através da rachadura no mamilo, que funciona como uma
-            porta de entrada para bactérias.
+            A mastite é uma inflamação na mama que pode causar sintomas como dor, inchaço ou vermelhidão. Pode ainda ser
+            acompanhada de febre, calafrios e, nos casos mais graves, levar ao surgimento de pus no interior na mama.
+
+            A mastite na mama geralmente ocorre devido a uma infecção bacteriana em mulheres que estão amamentando,
+            devido ao acúmulo de leite que favorece a multiplicação de bactérias. No entanto, também pode ocorrer em
+            homens em caso de feridas no mamilo, por exemplo.
+
+            Em caso de suspeita de mastite é importante consultar o ginecologista ou clínico geral para confirmar o
+            diagnóstico e iniciar o tratamento adequado, que pode envolver medicamentos e cirurgia.
+
+
           </p>
 
-          <h5>O que fazer?</h5>
+          <h5>Sintomas</h5>
           <p>
-            A mulher com sintomas de mastite deve procurar imediatamente um
-            serviço de saúde para realizar o tratamento adequado. A
-            amamentação não precisa ser interrompida durante o tratamento.
+            Os sintomas da mastite incluem dor, sensibilidade, inchaço e vermelhidão na mama, que pode parecer quente ao
+            toque. Outros sinais comuns são a sensação de queimação, nódulos no seio e o surgimento de sintomas
+            parecidos com os da gripe, como febre, calafrios e mal-estar generalizado. Pode também haver corrimento pelo
+            mamilo ou alterações visíveis no leite.
           </p>
 
           <div class="mt-3">
@@ -331,11 +324,8 @@
 
         <div class="col-md-4">
           <div class="image-slot">
-            <img src="https://via.placeholder.com/360x220?text=Mastite" alt="Imagem ilustrativa sobre mastite" />
+            <img src="../backend/img/mastite.jpg" alt="Imagem ilustrativa sobre mastite" />
           </div>
-          <p class="small text-muted mt-2">
-            Espaço para foto ou esquema sobre sintomas e medidas de alívio.
-          </p>
         </div>
       </div>
     </section>
