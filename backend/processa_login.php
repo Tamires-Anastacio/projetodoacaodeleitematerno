@@ -19,7 +19,7 @@ if (empty($email) || empty($senha)) {
 }
 
 // ===============================
-// 🔎 1. BUSCA NA TABELA USUARIO
+//  1. BUSCA NA TABELA USUARIO
 // ===============================
 $sql = "SELECT *, 'user' AS tipo_user FROM usuario WHERE email = :email LIMIT 1";
 $stmt = $pdo->prepare($sql);
@@ -28,7 +28,7 @@ $stmt->execute();
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // ===============================
-// 🔎 2. SE NÃO ENCONTROU, BUSCA NA TABELA INSTITUIÇÃO
+//  2. SE NÃO ENCONTROU, BUSCA NA TABELA INSTITUIÇÃO
 // ===============================
 if (!$usuario) {
     $sql = "SELECT *, 'inst' AS tipo_user FROM instituicao WHERE email = :email LIMIT 1";
@@ -39,7 +39,7 @@ if (!$usuario) {
 }
 
 // ===============================
-// ❌ 3. NÃO ACHOU NEM USUÁRIO NEM INSTITUIÇÃO
+//  3. NÃO ACHOU NEM USUÁRIO NEM INSTITUIÇÃO
 // ===============================
 if (!$usuario) {
     echo "<script>
@@ -53,7 +53,7 @@ if (!$usuario) {
 }
 
 // ===============================
-// 🔐 4. VERIFICA A SENHA
+// 4. VERIFICA A SENHA
 // ===============================
 if (!isset($usuario['senha_hash']) || !password_verify($senha, $usuario['senha_hash'])) {
     echo "<script>
@@ -67,7 +67,7 @@ if (!isset($usuario['senha_hash']) || !password_verify($senha, $usuario['senha_h
 }
 
 // ===================================
-// 🟢 5. LOGIN ACEITO — CRIA SESSÃO
+// 5. LOGIN ACEITO — CRIA SESSÃO
 // ===================================
 $_SESSION['id_user'] = $usuario['id_user'] ?? $usuario['id_instituicao'];
 $_SESSION['nome'] = $usuario['nome_completo'] ?? $usuario['nome'];

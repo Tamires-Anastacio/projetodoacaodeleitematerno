@@ -1,19 +1,29 @@
 <?php
-session_start();
-require 'includes/conexao.php'; // conexão com o banco
+require 'includes/conexao.php'; // conexão PDO
 
-$id_instituicao = $_SESSION['id_instituicao']; // vem do login da instituição
+// Inicia sessão apenas se não existir
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$query = "SELECT s.id_solicitacao, u.nome_completo, s.tipo_solicitacao, s.observacao, s.status, s.data_solicitacao
+// Verifica se é instituição
+if (!isset($_SESSION['tipo_user']) || $_SESSION['tipo_user'] !== 'inst') {
+    die("Acesso negado.");
+}
+
+$id_instituicao = $_SESSION['id_user']; // pois no login você salva id_user ou id_instituicao aqui
+
+$query = "SELECT s.id_solicitacao, u.nome_completo, s.tipo_solicitacao, 
+                 s.observacao, s.status, s.data_solicitacao
           FROM solicitacao s
           INNER JOIN usuario u ON s.id_user = u.id_user
-          WHERE s.id_instituicao = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $id_instituicao);
-$stmt->execute();
-$result = $stmt->get_result();
-?>
+          WHERE s.id_instituicao = :id";
 
+$stmt = $pdo->prepare($query);
+$stmt->bindValue(':id', $id_instituicao, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,7 +47,7 @@ $result = $stmt->get_result();
       </tr>
     </thead>
     <tbody>
-      <?php while($row = $result->fetch_assoc()): ?>
+      <?php foreach($result as $row): ?>
       <tr>
         <td><?= htmlspecialchars($row['nome_completo']) ?></td>
         <td><?= ucfirst($row['tipo_solicitacao']) ?></td>
@@ -56,7 +66,7 @@ $result = $stmt->get_result();
           <?php endif; ?>
         </td>
       </tr>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </tbody>
   </table>
 </div>

@@ -1,3 +1,5 @@
+<?php
+
 include_once '..\backend\includes/conexao.php';
 session_start();
 

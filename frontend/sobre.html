@@ -1,273 +1,352 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dificuldades no Processo de Amamentação</title>
-    <!-- Bootstrap 5 CDN -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      html {
-        scroll-behavior: smooth;
-      }
 
-      body {
-        background: #f8f9fa;
-      }
-      .hero {
-        background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
-        padding: 2.5rem 0;
-      }
-      .card-section {
-        margin-bottom: 1.25rem;
-      }
-      .image-slot {
-        background: #e9ecef;
-        border: 2px dashed #ced4da;
-        min-height: 160px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6c757d;
-        border-radius: 0.5rem;
-      }
-      .image-slot img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 0.5rem;
-      }
-      .spaced-btns .btn {
-        margin-right: 0.5rem;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dificuldades no Processo de Amamentação</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* ===================== GERAL ===================== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f8f9fa;
+      font-family: "Inter", sans-serif;
+      color: #212529;
+      margin: 0;
+      padding-top: 70px;
+      /* Espaço para navbar fixa */
+    }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+      padding: 3rem 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ===================== SEÇÕES (CARDS) ===================== */
+    .card-section {
+      margin-bottom: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background: #ffffff;
+    }
+
+    .card-section h2 {
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .card-section h5 {
+      font-weight: 500;
+      margin-top: 1rem;
+    }
+
+    /* ===================== IMAGENS ===================== */
+    .image-slot {
+      background: #e9ecef;
+      border: 2px dashed #ced4da;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .image-slot img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+    }
+
+    /* ===================== BOTÕES ===================== */
+    .spaced-btns .btn {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-sm {
+      font-size: 0.875rem;
+    }
+
+    .btn-outline-primary:hover,
+    .btn-outline-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar {
+      background: #ffffff;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand img {
+      height: 30px;
+    }
+
+    .navbar-nav .nav-link {
+      color: #212529;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #0d6efd;
+    }
+
+    /* Logo central responsivo */
+    .navbar-brand.center-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @media (max-width: 575px) {
+      .navbar-brand.center-logo {
+        position: static;
+        transform: none;
         margin-bottom: 0.5rem;
       }
-      /* espaço para logo no centro do navbar */
-      .navbar-brand.center-logo {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      @media (max-width: 575px) {
-        .navbar-brand.center-logo {
-          position: static;
-          transform: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar fixed-top">
-      <div class="container d-flex align-items-center justify-content-between">
-        <!-- Logo Central -->
-        <a
-          class="navbar-brand mx-auto position-absolute start-50 translate-middle-x"
-          href="#"
-        >
-          <img
-            src="https://via.placeholder.com/100x40?text=Logo"
-            height="30"
-            alt="Logo"
-          />
-        </a>
+    }
 
-        <!-- Nome do site (esquerda) -->
-        <a class="navbar-brand me-3" href="#">Sobre</a>
+    /* ===================== FOOTER ===================== */
+    footer {
+      font-size: 0.875rem;
+      color: #6c757d;
+      background: #f8f9fa;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-top: 1px solid #dee2e6;
+    }
 
-        <!-- Links da direita -->
-        <ul class="navbar-nav d-flex flex-row gap-3 ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#descida">Descida do Leite</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#frenulo">Pega e Frênulo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#mastite">Mastite</a>
-          </li>
-        </ul>
+    /* ===================== RESPONSIVO ===================== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo Central -->
+      <a class="navbar-brand mx-auto position-absolute start-50 translate-middle-x" href="#">
+        <img src="https://via.placeholder.com/100x40?text=Logo" height="30" alt="Logo" />
+      </a>
+
+      <!-- Nome do site (esquerda) -->
+      <a class="navbar-brand me-3" href="#">Sobre</a>
+
+      <!-- Links da direita -->
+      <ul class="navbar-nav d-flex flex-row gap-3 ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#descida">Descida do Leite</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#frenulo">Pega e Frênulo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#mastite">Mastite</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container mt-5">
+    <header class="hero rounded-3 mb-4">
+      <div class="container py-3">
+        <h1 class="display-6">Dificuldades no processo de amamentação</h1>
+        <p class="lead">
+          Informações práticas e orientações para as principais dificuldades
+          que podem surgir durante a amamentação.
+        </p>
       </div>
-    </nav>
+    </header>
 
-    <main class="container mt-5">
-      <header class="hero rounded-3 mb-4">
-        <div class="container py-3">
-          <h1 class="display-6">Dificuldades no processo de amamentação</h1>
-          <p class="lead">
-            Informações práticas e orientações para as principais dificuldades
-            que podem surgir durante a amamentação.
+    <section id="descida" class="card card-section p-3">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <h2>Demora na descida do leite (apojadura)</h2>
+          <p>
+            A “descida do leite” – ou apojadura – pode demorar um pouco mais
+            para acontecer em algumas mulheres. As cesarianas eletivas
+            (programadas) vêm sendo apontadas como um fator associado a essa
+            demora, por fatores hormonais e por dificultar a amamentação na
+            primeira hora de vida. Os partos prematuros e a obesidade também
+            podem interferir na descida do leite.
+          </p>
+
+          <h5>O que fazer?</h5>
+          <p>
+            Nesses casos, algumas medidas podem ajudar, em especial a
+            estimulação da mama com sucção frequente do bebê ou com extração
+            manual. A ajuda profissional é muito importante, assim como o
+            suporte da família e da rede de apoio.
+          </p>
+
+          <div class="mt-3 spaced-btns">
+            <button class="btn btn-outline-primary btn-sm">
+              Ver orientações completas
+            </button>
+            <button class="btn btn-outline-secondary btn-sm">
+              Agendar apoio com profissional
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <figure class="image-slot" aria-hidden="true">
+            <img src="../backend/img/sobre.png" alt="Imagem ilustrativa sobre descida do leite" />
+          </figure>
+          <figcaption class="small text-muted mt-2">
+            Espaço para imagem (ilustrativa).
+          </figcaption>
+        </div>
+      </div>
+    </section>
+
+    <section id="frenulo" class="card card-section p-3">
+      <div class="row g-3">
+        <div class="col-md-7">
+          <h2>Pega, posição e avaliação do frênulo lingual</h2>
+          <p>
+            Verifique na Caderneta da Criança se a maternidade realizou
+            avaliação do frênulo lingual. Caso não tenha sido avaliado,
+            deve-se procurar uma Unidade Básica de Saúde ou retornar na
+            maternidade. Observe a pega e posição do bebê nas mamadas. Existem
+            diversas posições para a mulher amamentar: sentada, recostada,
+            deitada ou em qualquer outra posição que seja agradável, familiar
+            e mais adequada ao momento.
+          </p>
+
+          <h5>Dicas rápidas</h5>
+          <ul>
+            <li>
+              Procure orientação profissional (lactação/fonoaudiologia) se
+              houver dúvida sobre o frênulo.
+            </li>
+            <li>
+              Teste posições diferentes até encontrar a mais confortável.
+            </li>
+            <li>
+              Foque em pega correta: boca bem aberta, queixo encostando no
+              peito e mais aréola visível acima do lábio superior do bebê.
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-5">
+          <div class="image-slot">
+            <img src="https://via.placeholder.com/380x240?text=Pega+e+Posi%C3%A7%C3%A3o"
+              alt="Imagem demonstrando pega e posições de amamentação" />
+          </div>
+          <p class="small text-muted mt-2">
+            Espaço para sequência de imagens/infográficos sobre posições de
+            amamentar.
           </p>
         </div>
-      </header>
+      </div>
+    </section>
 
-      <section id="descida" class="card card-section p-3">
-        <div class="row g-3">
-          <div class="col-md-8">
-            <h2>Demora na descida do leite (apojadura)</h2>
-            <p>
-              A “descida do leite” – ou apojadura – pode demorar um pouco mais
-              para acontecer em algumas mulheres. As cesarianas eletivas
-              (programadas) vêm sendo apontadas como um fator associado a essa
-              demora, por fatores hormonais e por dificultar a amamentação na
-              primeira hora de vida. Os partos prematuros e a obesidade também
-              podem interferir na descida do leite.
-            </p>
+    <section id="tipos" class="card card-section p-3">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <h2>Tipos de mamilos</h2>
+          <p>
+            Os mamilos podem variar bastante entre as mulheres (e podem mudar
+            durante a amamentação). A variação anatômica normalmente não
+            impede a amamentação, mas em caso de dúvida procure orientação
+            profissional.
+          </p>
+        </div>
 
-            <h5>O que fazer?</h5>
-            <p>
-              Nesses casos, algumas medidas podem ajudar, em especial a
-              estimulação da mama com sucção frequente do bebê ou com extração
-              manual. A ajuda profissional é muito importante, assim como o
-              suporte da família e da rede de apoio.
-            </p>
-
-            <div class="mt-3 spaced-btns">
-              <button class="btn btn-outline-primary btn-sm">
-                Ver orientações completas
-              </button>
-              <button class="btn btn-outline-secondary btn-sm">
-                Agendar apoio com profissional
-              </button>
-            </div>
+        <div class="col-md-6">
+          <div class="image-slot">
+            <img src="https://via.placeholder.com/420x200?text=Tipos+de+Mamilos"
+              alt="Ilustração de tipos de mamilos (espaço reservado)" />
           </div>
+          <p class="small text-muted mt-2">
+            Espaço para ilustrações ou fotos educativas (use imagens neutras e
+            educativas).
+          </p>
+        </div>
+      </div>
+    </section>
 
-          <div class="col-md-4">
-            <figure class="image-slot" aria-hidden="true">
-              <img
-                src="https://via.placeholder.com/400x250?text=Imagem+Descida+do+Leite"
-                alt="Imagem ilustrativa sobre descida do leite"
-              />
-            </figure>
-            <figcaption class="small text-muted mt-2">
-              Espaço para imagem (ilustrativa).
-            </figcaption>
+    <section id="mastite" class="card card-section p-3 mb-5">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <h2>Mastite</h2>
+          <p>
+            É a inflamação da mama, que pode progredir ou não para uma
+            infecção. Pode acontecer quando o leite fica muito tempo parado no
+            peito e/ou através da rachadura no mamilo, que funciona como uma
+            porta de entrada para bactérias.
+          </p>
+
+          <h5>O que fazer?</h5>
+          <p>
+            A mulher com sintomas de mastite deve procurar imediatamente um
+            serviço de saúde para realizar o tratamento adequado. A
+            amamentação não precisa ser interrompida durante o tratamento.
+          </p>
+
+          <div class="mt-3">
+            <button class="btn btn-danger btn-sm">
+              Ir ao serviço de saúde
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+              Ver sinais de mastite
+            </button>
           </div>
         </div>
-      </section>
 
-      <section id="frenulo" class="card card-section p-3">
-        <div class="row g-3">
-          <div class="col-md-7">
-            <h2>Pega, posição e avaliação do frênulo lingual</h2>
-            <p>
-              Verifique na Caderneta da Criança se a maternidade realizou
-              avaliação do frênulo lingual. Caso não tenha sido avaliado,
-              deve-se procurar uma Unidade Básica de Saúde ou retornar na
-              maternidade. Observe a pega e posição do bebê nas mamadas. Existem
-              diversas posições para a mulher amamentar: sentada, recostada,
-              deitada ou em qualquer outra posição que seja agradável, familiar
-              e mais adequada ao momento.
-            </p>
-
-            <h5>Dicas rápidas</h5>
-            <ul>
-              <li>
-                Procure orientação profissional (lactação/fonoaudiologia) se
-                houver dúvida sobre o frênulo.
-              </li>
-              <li>
-                Teste posições diferentes até encontrar a mais confortável.
-              </li>
-              <li>
-                Foque em pega correta: boca bem aberta, queixo encostando no
-                peito e mais aréola visível acima do lábio superior do bebê.
-              </li>
-            </ul>
+        <div class="col-md-4">
+          <div class="image-slot">
+            <img src="https://via.placeholder.com/360x220?text=Mastite" alt="Imagem ilustrativa sobre mastite" />
           </div>
-
-          <div class="col-md-5">
-            <div class="image-slot">
-              <img
-                src="https://via.placeholder.com/380x240?text=Pega+e+Posi%C3%A7%C3%A3o"
-                alt="Imagem demonstrando pega e posições de amamentação"
-              />
-            </div>
-            <p class="small text-muted mt-2">
-              Espaço para sequência de imagens/infográficos sobre posições de
-              amamentar.
-            </p>
-          </div>
+          <p class="small text-muted mt-2">
+            Espaço para foto ou esquema sobre sintomas e medidas de alívio.
+          </p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="tipos" class="card card-section p-3">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <h2>Tipos de mamilos</h2>
-            <p>
-              Os mamilos podem variar bastante entre as mulheres (e podem mudar
-              durante a amamentação). A variação anatômica normalmente não
-              impede a amamentação, mas em caso de dúvida procure orientação
-              profissional.
-            </p>
-          </div>
+    <footer class="text-center text-muted py-4">
+      <small>Conteúdo informativo — em caso de dúvidas ou sintomas procure um
+        profissional de saúde.</small>
+    </footer>
+  </main>
 
-          <div class="col-md-6">
-            <div class="image-slot">
-              <img
-                src="https://via.placeholder.com/420x200?text=Tipos+de+Mamilos"
-                alt="Ilustração de tipos de mamilos (espaço reservado)"
-              />
-            </div>
-            <p class="small text-muted mt-2">
-              Espaço para ilustrações ou fotos educativas (use imagens neutras e
-              educativas).
-            </p>
-          </div>
-        </div>
-      </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-      <section id="mastite" class="card card-section p-3 mb-5">
-        <div class="row g-3">
-          <div class="col-md-8">
-            <h2>Mastite</h2>
-            <p>
-              É a inflamação da mama, que pode progredir ou não para uma
-              infecção. Pode acontecer quando o leite fica muito tempo parado no
-              peito e/ou através da rachadura no mamilo, que funciona como uma
-              porta de entrada para bactérias.
-            </p>
-
-            <h5>O que fazer?</h5>
-            <p>
-              A mulher com sintomas de mastite deve procurar imediatamente um
-              serviço de saúde para realizar o tratamento adequado. A
-              amamentação não precisa ser interrompida durante o tratamento.
-            </p>
-
-            <div class="mt-3">
-              <button class="btn btn-danger btn-sm">
-                Ir ao serviço de saúde
-              </button>
-              <button class="btn btn-outline-primary btn-sm">
-                Ver sinais de mastite
-              </button>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="image-slot">
-              <img
-                src="https://via.placeholder.com/360x220?text=Mastite"
-                alt="Imagem ilustrativa sobre mastite"
-              />
-            </div>
-            <p class="small text-muted mt-2">
-              Espaço para foto ou esquema sobre sintomas e medidas de alívio.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <footer class="text-center text-muted py-4">
-        <small
-          >Conteúdo informativo — em caso de dúvidas ou sintomas procure um
-          profissional de saúde.</small
-        >
-      </footer>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
 </html>

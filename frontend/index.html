@@ -9,7 +9,6 @@
 
   <title>Site de Doação</title>
   <style>
-    /* ===================== BASE ===================== */
     body {
       font-family: "Inter", sans-serif;
       background: #f3e5f5;
@@ -89,7 +88,8 @@
     }
 
     /* ===================== BOTÕES ===================== */
-    button.learn-more {
+    .learn-more {
+      display: inline-block;
       font-weight: 600;
       color: #fff;
       text-transform: uppercase;
@@ -101,9 +101,11 @@
       font-size: 0.95rem;
       transition: all 0.3s ease;
       box-shadow: 0 8px 15px rgba(233, 30, 99, 0.3);
+      text-align: center;
+      text-decoration: none;
     }
 
-    button.learn-more:hover {
+    .learn-more:hover {
       transform: translateY(-3px) scale(1.05);
       background: #9c27b0;
       box-shadow: 0 12px 20px rgba(233, 30, 99, 0.4);
@@ -175,7 +177,7 @@
 
       <!-- LOGO -->
       <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="35" class="me-2" />
+        <img src="backend/img/image1.png" alt="image1.png">
         <span class="fw-bold">Doação de Leite</span>
       </a>
 
@@ -237,7 +239,7 @@
 
           <div class="col-md-3">
             <div class="card">
-              <img src="..." class="card-img-top" alt="...">
+              <img src="...backend/img/image1.png" class="card-img-top" alt="...">
               <div class="card-body">
                 <p class="card-text">Chat direto com Instituições parceiras</p>
               </div>
@@ -280,7 +282,8 @@
             Saiba como funciona a doação de leite, onde doar e como ajudar bebês
             que precisam desse gesto tão importante.
           </p>
-          <button class="learn-more">Sobre</button>
+          <a href="sobre.html" class="learn-more">Sobre</a>
+
         </div>
 
       </div>
