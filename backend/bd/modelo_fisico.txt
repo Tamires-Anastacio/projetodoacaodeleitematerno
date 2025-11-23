@@ -4,7 +4,7 @@ USE sistema;
 
 --  TABELA: USUÁRIO
 
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     nome_completo VARCHAR(255) NOT NULL,
