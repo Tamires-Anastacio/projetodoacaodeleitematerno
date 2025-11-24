@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_user'])) {
     exit;
 }
 
-$nome = $_SESSION['nome'];
+$nome = $_SESSION['nome_completo'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -20,7 +20,7 @@ $nome = $_SESSION['nome'];
 <div class="container text-center mt-5">
   <h1>Bem-vindo, <?php echo htmlspecialchars($nome); ?>!</h1>
   <p>Login realizado com sucesso.</p>
-  <a href="map_user.php" class="btn btn-primary">Ver Mapa</a>
+  <a href="../frontend/map_user.php" class="btn btn-primary">Ver Mapa</a>
   <a href="logout.php" class="btn btn-danger">Sair</a>
 </div>
 </body>

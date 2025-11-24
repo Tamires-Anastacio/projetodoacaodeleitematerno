@@ -67,7 +67,7 @@ try {
         }
 
         .btn-back {
-            color: var(--secondary);
+            
             border: 1px solid var(--secondary);
             border-radius: 20px;
             padding: 5px 15px;

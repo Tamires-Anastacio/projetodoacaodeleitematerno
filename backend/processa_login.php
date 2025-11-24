@@ -1,40 +1,87 @@
 <?php
 session_start();
-require "conexao.php"; // certifique-se de que $pdo está definido neste arquivo
+require 'includes/conexao.php'; // Certifique-se que o caminho está correto
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Pegando os dados do formulário
-    $email = trim($_POST['email']);
-    $senha = trim($_POST['senha']);
+// Recebe dados do formulário
+$email = $_POST['email'] ?? '';
+$senha = $_POST['senha'] ?? '';
 
-    if (empty($email) || empty($senha)) {
-        die("Email ou senha não podem ser vazios.");
-    }
-
-    try {
-        // Consulta segura com PDO
-        $stmt = $pdo->prepare("SELECT id_user, nome_completo, senha_hash FROM usuario WHERE email = :email");
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($senha, $user['senha_hash'])) {
-            // Login válido
-            $_SESSION['id_user'] = $user['id_user'];
-            $_SESSION['nome_completo'] = $user['nome_completo'];
-            $_SESSION['email'] = $email;
-
-            header("Location: sucesso.php");
-            exit;
-        } else {
-            echo "<script>alert('Email ou senha inválidos!');window.location='../frontend/form_login.html';</script>";
-        }
-    } catch (PDOException $e) {
-        // Em caso de erro no banco
-        die("Erro no banco de dados: " . $e->getMessage());
-    }
-} else {
-    header("Location: ../frontend/form_login.html");
+// Verifica campos obrigatórios
+if (!$email || !$senha) {
+    echo "<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'Preencha todos os campos!'
+    });
+    </script>";
     exit;
 }
+
+// Busca usuário na tabela usuario
+$sql_usuario = "SELECT * FROM usuario WHERE email = :email LIMIT 1";
+$stmt_usuario = $pdo->prepare($sql_usuario);
+$stmt_usuario->bindValue(':email', $email);
+$stmt_usuario->execute();
+$usuario = $stmt_usuario->fetch(PDO::FETCH_ASSOC);
+
+// Se não encontrar na tabela usuario, procura na tabela instituicao
+if (!$usuario) {
+    $sql_instituicao = "SELECT * FROM instituicao WHERE email = :email LIMIT 1";
+    $stmt_instituicao = $pdo->prepare($sql_instituicao);
+    $stmt_instituicao->bindValue(':email', $email);
+    $stmt_instituicao->execute();
+    $instituicao = $stmt_instituicao->fetch(PDO::FETCH_ASSOC);
+
+    // Se encontrar na tabela instituicao, define como tipo de usuário 'inst'
+    if ($instituicao) {
+        $usuario = $instituicao;
+        $usuario['tipo_user'] = 'inst'; // Define que é uma instituição
+    }
+}
+
+// Se não encontrar em nenhum dos casos
+if (!$usuario) {
+    echo "<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Usuário não encontrado',
+        text: 'E-mail incorreto'
+    });
+    </script>";
+    exit;
+}
+
+// Verifica a senha
+if (!password_verify($senha, $usuario['senha_hash'])) {
+    echo "<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Senha incorreta',
+        text: 'Tente novamente'
+    });
+    </script>";
+    exit;
+}
+
+// Login bem-sucedido, salva na sessão
+$_SESSION['id_user'] = $usuario['id_user'] ?? $usuario['id_instituicao']; // ID pode ser diferente nas tabelas
+$_SESSION['nome'] = $usuario['nome_completo'] ?? $usuario['nome']; // Nome pode ter campos diferentes nas tabelas
+$_SESSION['email'] = $usuario['email'];
+$_SESSION['tipo_user'] = $usuario['tipo_user'];
+
+// Redirecionamento por tipo de usuário
+switch ($usuario['tipo_user']) {
+    case 'adm':
+        header("Location: ../frontend/adm.php");
+        break;
+    case 'inst':
+        header("Location: ../frontend/dashboard_inst.php
+        ");
+        break;
+    default:
+        header("Location: ../frontend/dashboard_user.php");
+        break;
+}
+exit;
 ?>
