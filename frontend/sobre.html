@@ -5,435 +5,503 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dificuldades no Processo de Amamentação</title>
+
   <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts: Inter e Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@500;700&display=swap"
+    rel="stylesheet">
+
   <style>
-    /* ===================== GERAL ===================== */
+    /* ===================== VARIÁVEIS E GERAL ===================== */
+    :root {
+      --primary-color: #d63384;
+      /* Rosa forte */
+      --primary-hover: #a31d5f;
+      /* Rosa escuro */
+      --light-pink: #fff0f5;
+      /* Fundo suave */
+      --accent-bg: #ffe6f0;
+      /* Fundo destaque */
+      --text-dark: #4a2c4a;
+      /* Texto escuro (roxo profundo) */
+      --text-body: #664d66;
+      /* Texto corpo */
+      --white: #ffffff;
+      --shadow-sm: 0 4px 6px rgba(214, 51, 132, 0.08);
+      --shadow-md: 0 10px 30px rgba(214, 51, 132, 0.15);
+    }
+
     html {
       scroll-behavior: smooth;
     }
 
     body {
-      background: #fff0f5;
+      background-color: var(--light-pink);
       font-family: "Inter", sans-serif;
-      color: #212529;
-      margin: 0;
+      color: var(--text-body);
       padding-top: 80px;
       /* Espaço para navbar fixa */
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: "Poppins", sans-serif;
+      color: var(--text-dark);
     }
 
     /* ===================== NAVBAR ===================== */
     .navbar {
-      background: #ffe6f0;
-      padding: 0.5rem 1rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      /* Efeito de vidro */
+      padding: 0.8rem 1rem;
+      box-shadow: 0 2px 15px rgba(214, 51, 132, 0.1);
+      transition: all 0.3s ease;
     }
 
     .navbar-brand {
       font-weight: 700;
-      font-size: 1.25rem;
-      color: #d63384;
+      color: var(--primary-color) !important;
+      font-family: "Poppins", sans-serif;
     }
 
-    .navbar-brand:hover {
-      color: #a31d5f;
+    .nav-link {
+      color: var(--text-dark) !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 0 5px;
+      padding: 8px 16px !important;
+      border-radius: 20px;
+      transition: all 0.3s ease;
     }
 
-    .navbar-nav .nav-link {
-      color: #b84b99;
-      font-weight: 500;
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-color) !important;
+      background-color: var(--accent-bg);
+    }
+
+    .btn-voltar-nav {
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 0.4rem 1.2rem;
+      text-decoration: none;
       transition: all 0.3s;
     }
 
-    .navbar-nav .nav-link:hover {
-      color: #d63384;
-      background: #ffe6f0;
-      border-radius: 5px;
+    .btn-voltar-nav:hover {
+      background-color: var(--primary-color);
+      color: white;
     }
 
-    /* Hamburger button cor rosa */
     .navbar-toggler {
-      border-color: #d63384;
+      border: none;
+      color: var(--primary-color);
     }
 
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(214,51,132, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/ %3E%3C/svg%3E");
+    .navbar-toggler:focus {
+      box-shadow: none;
     }
 
-    /* ===================== HERO ===================== */
+    /* ===================== HERO SECTION ===================== */
     .hero {
-      background: linear-gradient(180deg, #ffe6f0 0%, #ffd9e6 100%);
-      padding: 3rem 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      background: linear-gradient(135deg, #fff0f5 0%, #ffcce0 100%);
+      padding: 4rem 1.5rem;
+      border-radius: 2rem;
+      box-shadow: var(--shadow-sm);
       text-align: center;
+      margin-bottom: 3rem;
+      border: 1px solid white;
     }
 
     .hero h1 {
-      font-size: 2rem;
+      color: var(--primary-color);
       font-weight: 700;
-      color: #d63384;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
     }
 
     .hero p {
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-      color: #a31d5f;
+      font-size: 1.15rem;
+      color: var(--text-body);
+      max-width: 700px;
+      margin: 0 auto;
     }
 
-    /* ===================== SEÇÕES ===================== */
+    /* ===================== CARDS DE CONTEÚDO ===================== */
     .card-section {
-      margin-bottom: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      background: #fff0f5;
-      padding: 1.5rem;
-    }
-
-    .card-section h2 {
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: #d63384;
-    }
-
-    .card-section h5 {
-      font-weight: 600;
-      margin-top: 1rem;
-      color: #a31d5f;
-    }
-
-    .card-section p,
-    .card-section li {
-      font-size: 1rem;
-      color: #5a2a4f;
-    }
-
-    /* ===================== IMAGENS ===================== */
-    .image-slot {
-      background: #f9d9e5;
-      border: 2px dashed #ffcce0;
-      min-height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.75rem;
+      background: var(--white);
+      border: none;
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       overflow: hidden;
     }
 
-    .image-slot img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 0.75rem;
+    .card-section:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-section h2 {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      border-left: 5px solid var(--primary-color);
+      padding-left: 15px;
+    }
+
+    .card-section h5 {
+      color: var(--primary-hover);
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ===================== IMAGENS ===================== */
+    .image-container {
+      height: 100%;
+      min-height: 250px;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card-section:hover .image-container img {
+      transform: scale(1.05);
     }
 
     /* ===================== BOTÕES ===================== */
+    .btn {
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
     .btn-primary {
-      background-color: #d63384;
-      border: none;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
     }
 
     .btn-primary:hover {
-      background-color: #a31d5f;
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
     }
 
     .btn-outline-primary {
-      border-color: #d63384;
-      color: #d63384;
+      color: var(--primary-color);
+      border-color: var(--primary-color);
     }
 
     .btn-outline-primary:hover {
-      background-color: #ffe6f0;
-      color: #a31d5f;
+      background-color: var(--primary-color);
+      color: white;
     }
 
-    .btn-outline-secondary {
-      border-color: #b84b99;
-      color: #b84b99;
-    }
-
-    .btn-outline-secondary:hover {
-      background-color: #ffe6f0;
-      color: #a31d5f;
+    .btn-danger {
+      background-color: #ff6b6b;
+      border: none;
     }
 
     .spaced-btns .btn {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
       margin-bottom: 0.5rem;
-      transition: all 0.3s ease;
+    }
+
+    /* ===================== BOTÃO FLUTUANTE (TOP) ===================== */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary-color);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: none;
+      /* Inicia oculto */
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: none;
+      z-index: 9999;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #back-to-top:hover {
+      background: var(--primary-hover);
+      transform: translateY(-5px);
     }
 
     /* ===================== FOOTER ===================== */
     footer {
-      font-size: 0.875rem;
-      color: #5a2a4f;
-      background: #ffe6f0;
-      margin-top: 2rem;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      border-top: 1px solid #ffcce0;
-      text-align: center;
+      background: #fff;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      border-top: 1px solid #eee;
+    }
+
+    footer small {
+      color: #888;
+      font-size: 0.9rem;
     }
 
     /* ===================== RESPONSIVO ===================== */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 1.75rem;
+      .hero {
+        padding: 2.5rem 1rem;
       }
 
-      .hero p {
-        font-size: 1rem;
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .card-section {
+        padding: 1.5rem;
       }
 
       .navbar-nav {
-        text-align: center;
+        background: white;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
       }
 
-      .navbar-nav .nav-link {
-        padding: 0.5rem 0;
+      .image-container {
+        min-height: 200px;
+        margin-top: 1rem;
       }
-    }
-
-    /* Botão voltar ao topo integrado à navbar */
-    .btn-back-to-top {
-      background-color: #d63384;
-      color: white;
-      font-weight: 500;
-      border-radius: 0.5rem;
-      padding: 6px 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .btn-back-to-top:hover {
-      background-color: #a31d5f;
-      transform: translateY(-2px);
-    }
-
-    /* Tamanho e estilo da seta */
-    .btn-back-to-top .arrow {
-      font-size: 1.2rem;
-    }
-
-    /* Espaçamento entre seta e texto */
-    .btn-back-to-top .text {
-      font-size: 0.95rem;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar fixed-top">
-    <div class="container d-flex align-items-center justify-content-between">
-      <a class="btn btn-outline-primary" href="index.html" title="Voltar ao topo" style="font-size: 1.2rem;">
-        <span class="arrow">&#8679;</span>
-        <span class="text">Voltar</span>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- Botão Voltar (Estilo Link ou Logo) -->
+      <a class="btn-voltar-nav d-flex align-items-center gap-2" href="index.html">
+        <span>&#8592;</span> Voltar
       </a>
 
-      <!-- Links da direita -->
-      <ul class="navbar-nav d-flex flex-row gap-3 ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#tipos">Tipos de mamilos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#descida">Descida do Leite</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#frenulo">Pega e Frênulo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#mastite">Mastite</a>
-        </li>
-      </ul>
-      <!-- Botão voltar ao topo -->
+      <!-- Botão Hamburger para Mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"
+          style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=\'0 0 30 30\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath stroke=\'%23d63384\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-miterlimit=\'10\' d=\'M4 7h22M4 15h22M4 23h22\'/%3E%3C/svg%3E');"></span>
+      </button>
 
+      <!-- Links de Navegação -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="#tipos">Tipos de mamilos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#descida">Descida do Leite</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#frenulo">Pega e Frênulo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#mastite">Mastite</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <main class="container mt-5">
-    <header class="hero rounded-3 mb-4">
-      <div class="container py-3">
-        <h1 class="display-6">Dificuldades no processo de amamentação</h1>
-        <p class="lead">
-          Informações práticas e orientações para as principais dificuldades
-          que podem surgir durante a amamentação.
-        </p>
-      </div>
+  <main class="container">
+
+    <!-- HERO HEADER -->
+    <header class="hero">
+      <h1>Dificuldades na Amamentação</h1>
+      <p>
+        Guia prático e acolhedor para superar os principais desafios
+        neste momento tão importante de conexão.
+      </p>
     </header>
 
-    <section id="descida" class="card card-section p-3">
-      <div class="row g-3">
-        <div class="col-md-8">
+    <!-- SEÇÃO 1: DESCIDA DO LEITE -->
+    <section id="descida" class="card-section">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-7">
           <h2>Demora na descida do leite (apojadura)</h2>
           <p>
             A “descida do leite” – ou apojadura – pode demorar um pouco mais
-            para acontecer em algumas mulheres. As cesarianas eletivas
-            (programadas) vêm sendo apontadas como um fator associado a essa
-            demora, por fatores hormonais e por dificultar a amamentação na
-            primeira hora de vida. Os partos prematuros e a obesidade também
-            podem interferir na descida do leite.
+            para acontecer em algumas mulheres. Fatores como cesarianas eletivas,
+            prematuridade e estresse podem influenciar os hormônios responsáveis.
           </p>
 
           <h5>O que fazer?</h5>
           <p>
-            Nesses casos, algumas medidas podem ajudar, em especial a
-            estimulação da mama com sucção frequente do bebê ou com extração
-            manual. A ajuda profissional é muito importante, assim como o
-            suporte da família e da rede de apoio.
+            A estimulação da mama é fundamental. A sucção frequente do bebê ou a
+            extração manual ("ordenha") ajudam a sinalizar ao corpo para produzir leite.
+            Manter-se hidratada e tranquila também ajuda.
           </p>
 
-          <div class="mt-3 spaced-btns">
+          <div class="mt-4 spaced-btns">
             <button class="btn btn-outline-primary btn-sm">
               Ver orientações completas
             </button>
-            <button class="btn btn-outline-secondary btn-sm">
-              Agendar apoio com profissional
+            <button class="btn btn-primary btn-sm">
+              Agendar apoio profissional
             </button>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <figure class="image-slot" aria-hidden="true">
-            <img src="../backend/img/apojadura.jpg" alt="Imagem ilustrativa sobre descida do leite" />
-          </figure>
+        <div class="col-lg-5">
+          <div class="image-container">
+            <!-- Coloquei um placeholder caso a imagem não exista -->
+            <img src="../backend/img/apojadura.jpg" alt="Ilustração Apojadura"
+              onerror="this.src='https://images.unsplash.com/photo-1555252333-9f8e92e65df9?q=80&w=600&auto=format&fit=crop'">
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="frenulo" class="card card-section p-3">
-      <div class="row g-3">
-        <div class="col-md-7">
-          <h2>Pega, posição e avaliação do frênulo lingual</h2>
+    <!-- SEÇÃO 2: PEGA E FRÊNULO -->
+    <section id="frenulo" class="card-section">
+      <div class="row g-5 align-items-center flex-row-reverse">
+        <div class="col-lg-7">
+          <h2>Pega e Frênulo Lingual</h2>
           <p>
-            A avaliação do frênulo lingual, também conhecido como "teste da linguinha", é um procedimento obrigatório no
-            Brasil para identificar se o freio da língua está encurtado e pode afetar a amamentação e o desenvolvimento
-            da fala. A avaliação envolve a observação da posição da língua (em repouso e durante o choro ou sucção) e o
-            teste da mobilidade, onde o profissional eleva a língua para verificar o formato da ponta e a extensão do
-            frênulo. O protocolo Bristol é uma ferramenta de avaliação que analisa a aparência da ponta da língua, a
-            fixação do frênulo, a elevação e a projeção da língua, para pontuar a gravidade da anquiloglossia (língua
-            presa).
-            Verifique na Caderneta da Criança se a maternidade realizou
-            avaliação do frênulo lingual. Caso não tenha sido avaliado,
-            deve-se procurar uma Unidade Básica de Saúde ou retornar na
-            maternidade. Observe a pega e posição do bebê nas mamadas. Existem
-            diversas posições para a mulher amamentar: sentada, recostada,
-            deitada ou em qualquer outra posição que seja agradável, familiar
-            e mais adequada ao momento.
+            A "língua presa" pode dificultar a sucção. O "teste da linguinha" é obrigatório
+            e fundamental para avaliar a mobilidade da língua do bebê. Uma pega correta
+            evita dores e garante que o bebê extraia o leite eficientemente.
           </p>
 
           <h5>Dicas rápidas</h5>
           <ul>
-            <li>
-              Procure orientação profissional (lactação/fonoaudiologia) se
-              houver dúvida sobre o frênulo.
-            </li>
-            <li>
-              Teste posições diferentes até encontrar a mais confortável.
-            </li>
-            <li>
-              Foque em pega correta: boca bem aberta, queixo encostando no
-              peito e mais aréola visível acima do lábio superior do bebê.
-            </li>
+            <li>Verifique se a boca do bebê está bem aberta (boca de peixinho).</li>
+            <li>O queixo deve encostar na mama.</li>
+            <li>Se sentir dor, interrompa a sucção suavemente e tente novamente.</li>
           </ul>
+
+          <div class="mt-4">
+            <button class="btn btn-outline-primary btn-sm">Saiba mais sobre o teste</button>
+          </div>
         </div>
 
-        <div class="col-md-5">
-          <div class="image-slot">
-            <img src="../backend/img/bebe simpatico.jfif" alt="Imagem demonstrando pega e posições de amamentação" />
+        <div class="col-lg-5">
+          <div class="image-container">
+            <img src="../backend/img/bebe simpatico.jfif" alt="Bebê amamentando"
+              onerror="this.src='https://images.unsplash.com/photo-1617331599501-527787c88b48?q=80&w=600&auto=format&fit=crop'">
           </div>
         </div>
       </div>
     </section>
 
-    <section id="tipos" class="card card-section p-3">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <h2>Tipos de mamilos</h2>
+    <!-- SEÇÃO 3: TIPOS DE MAMILOS -->
+    <section id="tipos" class="card-section">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <h2>Tipos de Mamilos</h2>
           <p>
-            Os mamilos podem variar bastante entre as mulheres (e podem mudar
-            durante a amamentação). A variação anatômica normalmente não
-            impede a amamentação, mas em caso de dúvida procure orientação
-            profissional.
+            Planos, invertidos, protusos... Os mamilos variam muito entre as mulheres.
+            A boa notícia é: <strong>todos os tipos de mamilos permitem a amamentação</strong>.
+            O bebê não mama apenas no bico, ele faz a "pega" na aréola.
           </p>
         </div>
 
-        <div class="col-md-6">
-          <div class="image-slot">
-            <img src="../backend/img/tipos de mamilos.jpg" alt="Ilustração de tipos de mamilos (espaço reservado)" />
+        <div class="col-lg-6">
+          <div class="image-container">
+            <img src="../backend/img/tipos de mamilos.jpg" alt="Tipos de mamilos"
+              onerror="this.src='https://images.unsplash.com/photo-1555813456-8217277d5448?q=80&w=600&auto=format&fit=crop'">
           </div>
         </div>
       </div>
     </section>
 
-    <section id="mastite" class="card card-section p-3 mb-5">
-      <div class="row g-3">
-        <div class="col-md-8">
-          <h2>Mastite</h2>
+    <!-- SEÇÃO 4: MASTITE -->
+    <section id="mastite" class="card-section border-start border-4 border-danger">
+      <div class="row g-5 align-items-center flex-row-reverse">
+        <div class="col-lg-8">
+          <h2 class="text-danger">Mastite</h2>
           <p>
-            A mastite é uma inflamação na mama que pode causar sintomas como dor, inchaço ou vermelhidão. Pode ainda ser
-            acompanhada de febre, calafrios e, nos casos mais graves, levar ao surgimento de pus no interior na mama.
-
-            A mastite na mama geralmente ocorre devido a uma infecção bacteriana em mulheres que estão amamentando,
-            devido ao acúmulo de leite que favorece a multiplicação de bactérias. No entanto, também pode ocorrer em
-            homens em caso de feridas no mamilo, por exemplo.
-
-            Em caso de suspeita de mastite é importante consultar o ginecologista ou clínico geral para confirmar o
-            diagnóstico e iniciar o tratamento adequado, que pode envolver medicamentos e cirurgia.
-
-
+            A mastite é uma inflamação na mama, geralmente causada pelo acúmulo de leite que favorece infecção
+            bacteriana.
+            Sintomas incluem dor intensa, vermelhidão, calor local, febre e calafrios (semelhante a uma gripe).
           </p>
 
-          <h5>Sintomas</h5>
-          <p>
-            Os sintomas da mastite incluem dor, sensibilidade, inchaço e vermelhidão na mama, que pode parecer quente ao
-            toque. Outros sinais comuns são a sensação de queimação, nódulos no seio e o surgimento de sintomas
-            parecidos com os da gripe, como febre, calafrios e mal-estar generalizado. Pode também haver corrimento pelo
-            mamilo ou alterações visíveis no leite.
-          </p>
+          <div class="alert alert-danger bg-opacity-10 border-0 rounded-4 mt-3">
+            <strong>Atenção:</strong> Em caso de suspeita, consulte um médico imediatamente. O tratamento pode envolver
+            antibióticos e não deve ser postergado.
+          </div>
 
-          <div class="mt-3">
-            <button class="btn btn-danger btn-sm">
-              Ir ao serviço de saúde
-            </button>
-            <button class="btn btn-outline-primary btn-sm">
-              Ver sinais de mastite
-            </button>
+          <div class="mt-4">
+            <button class="btn btn-danger">Buscar Unidade de Saúde</button>
+            <button class="btn btn-outline-danger ms-2">Saber mais sintomas</button>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="image-slot">
-            <img src="../backend/img/mastite.jpg" alt="Imagem ilustrativa sobre mastite" />
+        <div class="col-lg-4">
+          <div class="image-container">
+            <img src="../backend/img/mastite.jpg" alt="Ilustração médica"
+              onerror="this.src='https://plus.unsplash.com/premium_photo-1682129596646-60195e26920f?q=80&w=600&auto=format&fit=crop'">
           </div>
         </div>
       </div>
     </section>
 
-    <footer class="text-center text-muted py-4">
-      <small>Conteúdo informativo — em caso de dúvidas ou sintomas procure um
-        profissional de saúde.</small>
+    <footer class="text-center">
+      <div class="container">
+        <p class="mb-1">© 2023 Guia de Amamentação</p>
+        <small class="text-muted">Conteúdo informativo — em caso de dúvidas procure um profissional de saúde.</small>
+      </div>
     </footer>
+
   </main>
+
+  <!-- Botão Voltar ao Topo Flutuante -->
+  <button type="button" id="back-to-top" title="Voltar ao topo">
+    &#8679;
+  </button>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const backToTop = document.getElementById("back-to-top");
+    // Lógica do botão Voltar ao Topo
+    const backToTopBtn = document.getElementById("back-to-top");
 
-    // Mostrar botão ao rolar
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 100) {
-        backToTop.style.display = "block";
+    window.onscroll = function () {
+      scrollFunction();
+    };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.style.display = "flex";
       } else {
-        backToTop.style.display = "none";
+        backToTopBtn.style.display = "none";
       }
-    });
+    }
 
-    // Scroll suave ao clicar
-    backToTop.addEventListener("click", (e) => {
-      e.preventDefault();
+    backToTopBtn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   </script>

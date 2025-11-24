@@ -34,7 +34,7 @@ $telefone_limpo = preg_replace('/[^0-9]/', '', $telefone);
 
 try {
     // 4. Verificar se CPF ou Email já existem no banco
-    $sql_check = "SELECT id FROM usuario WHERE cpf = :cpf OR email = :email LIMIT 1";
+    $sql_check = "SELECT id_user FROM usuario WHERE cpf = :cpf OR email = :email LIMIT 1";
     $stmt_check = $pdo->prepare($sql_check);
     $stmt_check->bindValue(':cpf', $cpf_limpo);
     $stmt_check->bindValue(':email', $email);
@@ -70,8 +70,7 @@ try {
     }
 
 } catch (PDOException $e) {
-    // Em produção, não mostre $e->getMessage() para o usuário, grave num log.
-    echo json_encode(["success" => false, "message" => "Erro interno do servidor. Tente novamente mais tarde."]);
-    // error_log($e->getMessage()); // Recomendado para debugar
+    // AGORA VAI MOSTRAR O ERRO REAL
+    echo json_encode(["success" => false, "message" => "ERRO SQL: " . $e->getMessage()]);
 }
 ?>

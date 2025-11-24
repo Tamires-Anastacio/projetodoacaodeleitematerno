@@ -10,7 +10,6 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_user = $_SESSION['id_user'];
 
-// Busca os dados do usuário
 $sql = "SELECT * FROM usuario WHERE id_user = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_user);

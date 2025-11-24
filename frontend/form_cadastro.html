@@ -15,11 +15,8 @@
         /* ======== VARIÁVEIS ======== */
         :root {
             --primary: #6a0dad;
-            /* Roxo Principal */
             --primary-hover: #4b0082;
-            /* Roxo Escuro */
             --secondary: #e91e63;
-            /* Rosa */
             --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
             --card-bg: #ffffff;
             --text-dark: #1f2d3d;
@@ -47,7 +44,6 @@
             padding: 40px;
             width: 100%;
             max-width: 700px;
-            /* Um pouco mais largo para o grid */
             box-shadow: 0 20px 60px rgba(106, 13, 173, 0.15);
             position: relative;
         }
@@ -122,12 +118,10 @@
         @media (min-width: 600px) {
             .col-half {
                 grid-column: span 6;
-                /* Metade */
             }
 
             .col-full {
                 grid-column: span 12;
-                /* Inteiro */
             }
 
             form {
@@ -170,7 +164,6 @@
             box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.1);
         }
 
-        /* Input desabilitado (Cidade) */
         select:disabled {
             background-color: #e9ecef;
             cursor: not-allowed;
@@ -191,7 +184,6 @@
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 10px;
             grid-column: 1 / -1;
-            /* Ocupa toda a largura */
         }
 
         .btn-submit:hover {
@@ -224,9 +216,8 @@
             <span>🏢</span> Representa uma Instituição? Clique aqui
         </button>
 
-        <form action="../backend/cadastro.php" method="post">
+        <form id="formCadastro" action="../backend/cadastro.php" method="post">
 
-            <!-- Nome Completo (Full width) -->
             <div class="input-group-custom col-full">
                 <label for="nome">Nome Completo</label>
                 <input type="text" name="nome_completo" id="nome" placeholder="Digite seu nome completo" required />
@@ -315,7 +306,66 @@
         </form>
     </div>
 
+    <!-- Scripts no final para garantir carregamento correto -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        // 1. Script para enviar o formulário via AJAX (SweetAlert)
+        const form = document.getElementById('formCadastro');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault(); // IMPEDE que a tela fique branca com o JSON
+
+            const formData = new FormData(form); // Pega os dados do formulário
+
+            try {
+                // Envia para o PHP sem recarregar a página
+                const response = await fetch('../backend/cadastro.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json(); // Lê a resposta JSON do PHP
+
+                if (data.success) {
+                    // SUCESSO: Mostra alerta verde e redireciona para Login
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Parabéns!',
+                        text: data.message,
+                        confirmButtonColor: '#6a0dad',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'form_login.html';
+                    });
+
+                    // Redirecionamento de segurança caso o timer falhe
+                    setTimeout(() => {
+                        window.location.href = 'form_login.html';
+                    }, 2500);
+
+                } else {
+                    // ERRO: Mostra alerta vermelho
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Atenção',
+                        text: data.message,
+                        confirmButtonColor: '#d33'
+                    });
+                }
+
+            } catch (error) {
+                console.error('Erro:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro Técnico',
+                    text: 'Não foi possível conectar ao servidor.'
+                });
+            }
+        });
+
+        // 2. Máscaras e IBGE
         /* ==== Máscara telefone ==== */
         document.getElementById("fone").addEventListener("input", function (e) {
             let value = e.target.value.replace(/\D/g, "");

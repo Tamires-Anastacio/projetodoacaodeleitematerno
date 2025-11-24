@@ -1,149 +1,232 @@
-<?php
-//session_start();
-require 'conexao.php';
-
-// Verifica login
-if (!isset($_SESSION['id_user'])) {
-    header("Location: login.php");
-    exit;
-}
-
-// Busca dados do usuário
-$id_user = $_SESSION['id_user'];
-
-$stmt = $conn->prepare("SELECT cidade, uf FROM usuario WHERE id_user = ?");
-$stmt->bind_param("i", $id_user); $stmt->execute(); $user =
-$stmt->get_result()->fetch_assoc(); $cidade = $user['cidade']; $uf =
-$user['uf']; // Busca instituições próximas $stmt2 = $conn->prepare("SELECT
-id_instituicao, nome FROM instituicao WHERE cidade = ? AND uf = ?");
-$stmt2->bind_param("ss", $cidade, $uf); $stmt2->execute(); $instituicoes =
-$stmt2->get_result()->fetch_all(MYSQLI_ASSOC); // Envio do formulário if
-($_SERVER["REQUEST_METHOD"] === "POST") { $tipo = $_POST['tipo_solicitacao'];
-$observacao = trim($_POST['observacao']); $id_instituicao =
-$_POST['id_instituicao']; $stmt3 = $conn->prepare( "INSERT INTO solicitacao
-(id_user, id_instituicao, tipo_solicitacao, observacao) VALUES (?, ?, ?, ?)" );
-$stmt3->bind_param("iiss", $id_user, $id_instituicao, $tipo, $observacao); if
-($stmt3->execute()) { echo "
-<script>
-  alert(
-    "Solicitação enviada com sucesso! As instituições próximas foram notificadas."
-  );
-  window.location.href = "dashboard_user.php";
-</script>
-"; } else { echo "
-<script>
-  alert("Erro ao enviar a solicitação.");
-</script>
-"; } } ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Nova Solicitação</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        background: linear-gradient(135deg, #e7d9ff, #f7f3ff);
-        font-family: "Poppins", sans-serif;
-      }
-      .card {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        background-color: white;
-      }
-      .btn-primary {
-        background-color: #7b2ff7;
-        border: none;
-        transition: 0.3s;
-      }
-      .btn-primary:hover {
-        background-color: #5a10c5;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container mt-5">
-      <div class="card p-4 mx-auto" style="max-width: 600px">
-        <h2 class="text-center text-primary mb-4">
-          Solicitar Doação ou Recebimento
-        </h2>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Solicitação</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6a0dad;
+      --secondary: #e91e63;
+      --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    }
+
+    body {
+      background: var(--bg-gradient);
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(106, 13, 173, 0.15);
+      background-color: white;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: white;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 25px;
+      text-align: center;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #4a4a4a;
+      margin-bottom: 8px;
+    }
+
+    /* Estilo personalizado para os Radio Buttons */
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .radio-card {
+      flex: 1;
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .radio-card label {
+      display: block;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      color: #666;
+    }
+
+    /* Efeito ao selecionar */
+    .radio-card input:checked+label {
+      border-color: var(--secondary);
+      background-color: #fff0f6;
+      color: var(--secondary);
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+    }
+
+    .radio-card label:hover {
+      border-color: var(--secondary);
+    }
+
+    /* Inputs e Selects */
+    .form-control,
+    .form-select {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #ced4da;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.1);
+    }
+
+    /* Botão Principal */
+    .btn-primary {
+      background: linear-gradient(45deg, var(--primary), #8e24aa);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 30px;
+      font-weight: 600;
+      width: 100%;
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #5a0b9e, #7b1fa2);
+      transform: translateY(-2px);
+    }
+
+    /* Botão Voltar */
+    .btn-back {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-back:hover {
+      transform: translateX(-5px);
+      color: var(--secondary);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Exibe alertas PHP se houver -->
+  <?php echo $msg_alerta; ?>
+
+  <div class="container">
+    <div class="card mx-auto" style="max-width: 600px">
+
+      <div class="card-header position-relative">
+        <a href="dashboard_user.php" class="btn-back text-decoration-none" title="Voltar">&larr;</a>
+        <h2>Nova Solicitação</h2>
+        <small class="text-muted">Conectando você aos Bancos de Leite</small>
+      </div>
+
+      <div class="card-body p-4">
         <form method="POST" action="">
-          <!-- Tipo -->
-          <div class="mb-3">
-            <label class="form-label fw-bold">Tipo de Solicitação:</label><br />
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="tipo_solicitacao"
-                id="doar"
-                value="doar"
-                required
-              />
-              <label class="form-check-label" for="doar"
-                >Quero Doar Leite</label
-              >
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="tipo_solicitacao"
-                id="receber"
-                value="receber"
-              />
-              <label class="form-check-label" for="receber"
-                >Preciso Receber Leite</label
-              >
+
+          <!-- Tipo de Solicitação (Visual Moderno) -->
+          <div class="mb-4">
+            <label class="form-label">O que você deseja fazer?</label>
+            <div class="radio-group">
+              <div class="radio-card">
+                <input type="radio" name="tipo_solicitacao" id="doar" value="doar" required>
+                <label for="doar">💖 Quero Doar</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" name="tipo_solicitacao" id="receber" value="receber">
+                <label for="receber">👶 Preciso Receber</label>
+              </div>
             </div>
           </div>
 
-          <!-- Instituição próxima -->
-          <div class="mb-3">
-            <label class="form-label fw-bold">Instituição mais próxima:</label>
+          <!-- Instituição -->
+          <div class="mb-4">
+            <label class="form-label">Selecione a Instituição:</label>
             <select name="id_instituicao" class="form-select" required>
-              <?php if (count($instituicoes) >
-              0): ?>
+              <?php if (count($instituicoes) > 0): ?>
+              <option value="" selected disabled>Escolha uma unidade próxima</option>
               <?php foreach ($instituicoes as $i): ?>
               <option value="<?= $i['id_instituicao'] ?>">
                 <?= htmlspecialchars($i['nome']) ?>
-                —
-                <?= $cidade ?>/<?= $uf ?>
+                (
+                <?= htmlspecialchars($cidade) ?>/
+                <?= htmlspecialchars($uf) ?>)
               </option>
               <?php endforeach; ?>
               <?php else: ?>
-              <option disabled>
-                Nenhuma instituição encontrada na sua cidade.
+              <option disabled selected>
+                Nenhuma instituição encontrada em
+                <?= htmlspecialchars($cidade) ?>
               </option>
               <?php endif; ?>
             </select>
+            <?php if (count($instituicoes) == 0): ?>
+            <div class="form-text text-danger mt-2">
+              Não há instituições cadastradas na sua cidade. Tente atualizar seu endereço.
+            </div>
+            <?php endif; ?>
           </div>
 
           <!-- Observações -->
-          <div class="mb-3">
-            <label class="form-label fw-bold">Observações:</label>
-            <textarea
-              name="observacao"
-              class="form-control"
-              rows="3"
-              placeholder="Descreva sua situação (ex: 'quero doar semanalmente' ou 'preciso urgente')"
-            ></textarea>
+          <div class="mb-4">
+            <label class="form-label">Observações (Opcional):</label>
+            <textarea name="observacao" class="form-control" rows="4"
+              placeholder="Ex: Tenho disponibilidade às terças-feiras... ou Ex: O bebê é prematuro..."></textarea>
           </div>
 
           <!-- Botão -->
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary px-5 py-2">
-              Enviar Solicitação
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+              Confirmar Solicitação
             </button>
           </div>
+
         </form>
       </div>
     </div>
-  </body>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
