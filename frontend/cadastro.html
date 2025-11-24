@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="cadastro.css">
+    <style>
+        /* Mensagens */
+        #msg {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+        }
+
+        #msg.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        #msg.error {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h1 class="form-title">Cadastro</h1>
+
+        <form id="formCadastro">
+            <label>Nome Completo</label>
+            <input type="text" name="nome_completo" required>
+
+            <label>CPF</label>
+            <input type="text" name="cpf" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Senha</label>
+            <input type="password" name="senha" required>
+
+            <input type="submit" value="Cadastrar">
+        </form>
+
+        <div id="msg"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('formCadastro');
+        const msg = document.getElementById('msg');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault(); // evita reload da página
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('../backend/cadastro.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    msg.className = 'success';
+                    msg.textContent = result.message;
+                    msg.style.display = 'block';
+                    form.reset(); // limpa o formulário
+                } else {
+                    msg.className = 'error';
+                    msg.textContent = result.message;
+                    msg.style.display = 'block';
+                }
+            } catch (error) {
+                msg.className = 'error';
+                msg.textContent = 'Erro na conexão com o servidor.';
+                msg.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

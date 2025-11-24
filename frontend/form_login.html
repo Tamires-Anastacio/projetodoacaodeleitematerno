@@ -1,214 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_left_alt"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap");
-      html {
-        background-image: url(../backend/img/fundo.png);
-      }
-      body {
-        background-color: #f9c4d2c2;
-        min-height: 100vh;
-      }
-      .comic-relief-regular {
-        font-family: "Comic Relief", system-ui;
-        font-weight: 400;
-        font-style: normal;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_left_alt" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap");
+
+    html {
+      background-image: url(../backend/img/fundo.png);
+    }
+
+    body {
+      background-color: #f9c4d2c2;
+      min-height: 100vh;
+    }
+
+    .comic-relief-regular {
+      font-family: "Comic Relief", system-ui;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .protest-guerrilla-regular {
+      font-family: "Protest Guerrilla", sans-serif;
+      font-weight: 800;
+      font-style: normal;
+      text-align: center;
+      font-size: 10vh;
+      background: linear-gradient(45deg, #cd7ccf, #3a0e66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    a {
+      text-decoration: none;
+      position: sticky;
+    }
+
+    .submit {
+      font-family: "Protest Guerrilla", sans-serif;
+      background-color: #b2b0b3;
+      color: #4e4e4e;
+      font-weight: 800;
+      font-style: normal;
+      text-align: center;
+    }
+
+    .submit:hover {
+      background-color: #e788e9;
+      color: #3a0e66;
+      border-color: #5a189b;
+    }
+
+    form {
+      height: 700px;
+
+      margin-top: 10%;
+      display: flex;
+      flex-direction: column;
+
+      .mid {
+        display: flex;
+        flex-direction: row;
+        width: 80%;
       }
 
-      .protest-guerrilla-regular {
-        font-family: "Protest Guerrilla", sans-serif;
-        font-weight: 800;
-        font-style: normal;
-        text-align: center;
-        font-size: 10vh;
-        background: linear-gradient(45deg, #cd7ccf, #3a0e66);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      a {
-        text-decoration: none;
-        position: sticky;
-      }
-
-      .submit {
-        font-family: "Protest Guerrilla", sans-serif;
-        background-color: #b2b0b3;
-        color: #4e4e4e;
-        font-weight: 800;
-        font-style: normal;
-        text-align: center;
-      }
-
-      .submit:hover {
-        background-color: #e788e9;
-        color: #3a0e66;
-        border-color: #5a189b;
-      }
-      form {
-        height: 700px;
-
-        margin-top: 10%;
+      .col {
         display: flex;
         flex-direction: column;
-
-        .mid {
-          display: flex;
-          flex-direction: row;
-          width: 80%;
-        }
-
-        .col {
-          display: flex;
-          flex-direction: column;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        input {
-          width: 90%;
-          height: 5vh;
-          margin-bottom: 4%;
-          border-radius: 15px;
-        }
-      }
-      main {
-        width: 90%;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 3%;
       }
 
-      .container {
-        max-width: 35%;
-        margin-top: 3%;
+      input {
+        width: 90%;
+        height: 5vh;
+        margin-bottom: 4%;
+        border-radius: 15px;
       }
+    }
 
-      .cssbuttons-io {
-        position: absolute;
-        font-family: inherit;
-        margin: 5%;
-        margin-top: 1.5%;
-        font-size: 18px;
-        letter-spacing: 0.05em;
-        border-radius: 0.9em;
-        cursor: pointer;
-        border: none;
-        background: linear-gradient(to right, #8e2de2, #4a00e0);
-        color: ghostwhite;
-        overflow: hidden;
-      }
+    main {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 3%;
+    }
 
-      .cssbuttons-io svg {
-        width: 1em;
-        height: 1em;
-        margin-right: 0.5em;
-      }
+    .container {
+      max-width: 35%;
+      margin-top: 3%;
+    }
 
-      .cssbuttons-io span {
-        position: relative;
-        z-index: 10;
-        transition: color 0.4s;
-        display: inline-flex;
-        align-items: center;
-        padding: 0.5em 1em 0.5em 1em;
-      }
+    .cssbuttons-io {
+      position: absolute;
+      font-family: inherit;
+      margin: 5%;
+      margin-top: 1.5%;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      border-radius: 0.9em;
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      color: ghostwhite;
+      overflow: hidden;
+    }
 
-      .cssbuttons-io::before,
-      .cssbuttons-io::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-      }
+    .cssbuttons-io svg {
+      width: 1em;
+      height: 1em;
+      margin-right: 0.5em;
+    }
 
-      .cssbuttons-io::before {
-        content: "";
-        background: #000;
-        width: 120%;
-        left: -10%;
-        transform: skew(30deg);
-        transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
-      }
+    .cssbuttons-io span {
+      position: relative;
+      z-index: 10;
+      transition: color 0.4s;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5em 1em 0.5em 1em;
+    }
 
-      .cssbuttons-io:hover::before {
-        transform: translate3d(100%, 0, 0);
-      }
+    .cssbuttons-io::before,
+    .cssbuttons-io::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-      .cssbuttons-io:active {
-        transform: scale(0.95);
-      }
-    </style>
-  </head>
+    .cssbuttons-io::before {
+      content: "";
+      background: #000;
+      width: 120%;
+      left: -10%;
+      transform: skew(30deg);
+      transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+    }
 
-  <body>
-    <main>
-      <a href="index.html">
-        <button class="cssbuttons-io">
-          <span class="material-symbols-outlined"> arrow_left_alt </span>
-        </button>
-      </a>
-      <div class="container">
-        <h1 class="protest-guerrilla-regular">Login</h1>
-        <form action="../backend/processa_login.php" method="post">
-          
-          <label class="comic-relief-regular" for="email">Email</label>
-          <input type="email" name="email" id="email" required />
+    .cssbuttons-io:hover::before {
+      transform: translate3d(100%, 0, 0);
+    }
 
-          <label class="comic-relief-regular" for="telefone">Senha</label>
-          <input type="password" name="senha" id="senha" required />
+    .cssbuttons-io:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
 
-          <input class="submit" type="submit" value="Enviar" />
-        </form>
-      </div>
-    </main>
-  </body>
+<body>
+  <main>
+    <a href="index.html">
+      <button class="cssbuttons-io">
+        <span class="material-symbols-outlined">arrow_left_alt</span>
+      </button>
+    </a>
+    <div class="container">
+      <h1 class="protest-guerrilla-regular">Login</h1>
+      <form action="../backend/processa_login.php" method="post">
+        <label class="comic-relief-regular" for="email">Email</label>
+        <input type="email" name="email" id="email" required />
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-  <script>
-    const cpfInput = document.getElementById("cpf");
+        <label class="comic-relief-regular" for="senha">Senha</label>
+        <input type="password" name="senha" id="senha" required />
 
-    cpfInput.addEventListener("input", function (e) {
-      let v = e.target.value.replace(/\D/g, ""); // só números
-      if (v.length > 11) v = v.slice(0, 11); // limita a 11 dígitos
+        <input class="submit" type="submit" value="Entrar" />
+      </form>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-      // Formata progressivamente: 000.000.000-00
-      if (v.length > 9) {
-        v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, "$1.$2.$3-$4");
-      } else if (v.length > 6) {
-        v = v.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
-      } else if (v.length > 3) {
-        v = v.replace(/^(\d{3})(\d{0,3}).*/, "$1.$2");
-      }
-
-      e.target.value = v;
-    });
-
-    // Evita que teclas não numéricas (exceto backspace, setas, delete, tab)
-    cpfInput.addEventListener("keydown", function (e) {
-      const allowed = ["Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab"];
-      if (allowed.includes(e.key)) return;
-      if (e.key.length === 1 && /\D/.test(e.key)) e.preventDefault();
-    });
-  </script>
 </html>
