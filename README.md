@@ -1,3 +1,9 @@
+INSERT INTO `usuario` (`id_user`, `cpf`, `nome_completo`, `cidade`, `data_nascimento`, `telefone`, `email`, `senha_hash`, `uf`, `tipo_user`, `data_cadastro`, `latitude`, `longitude`) VALUES
+(1, '84364785664', 'Tamires Anastacio ', 'Antônio Prado', '2006-06-30', '11837484332', 'yuhuu@gmail.com', '$2y$10$Wx7nrtYfm93UDc67cWFZquymH2jFxuhbxE9e7nFf5vocD47eXiXEe', 'RS', 'user', '2025-11-24 07:46:54', NULL, NULL),
+(2, '63536346754', 'Ana Carolina', 'Baião', '2020-12-15', '11927836442', 'tudodebom@gmail.com', '$2y$10$hPdOjeTxqZLw0Qc5ZE/8Wuwdye2b/v29c3KOAGXlMTOWfwbQr1i0a', 'PA', 'user', '2025-11-24 07:49:03', NULL, NULL),
+(3, '63352363474', 'bobbie', 'Álvaro de Carvalho', '2020-12-07', '11928736455', 'goods@gmail.com', '$2y$10$LwUeQukPLmTszYDVF5jLzegV.5rez6kg6Yk8fadSpgVl4OEzzVoJS', 'SP', 'adm', '2025-11-24 08:14:46', NULL, NULL);
+
+
 # 🍼 Projeto de Doação de Leite Materno  
 Sistema completo para conectar doadoras, receptores e instituições de coleta.
 
